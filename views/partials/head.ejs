@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- SEO Meta Tags -->
+    <title><%= title || 'Umarbek Fazliddinovich - Personal Website' %></title>
+    <meta name="description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences. Currently based in Samarkand, working remotely and contributing to various projects globally.' %>">
+    <meta name="keywords" content="<%= keywords || 'minimalist designer, UX designer, developer, Samarkand, Uzbekistan, digital experiences' %>">
+    <meta name="author" content="Umarbek Fazliddinovich">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="<%= title || 'Umarbek Fazliddinovich - Personal Website' %>">
+    <meta property="og:description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences.' %>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="<%= canonicalUrl || 'https://um.ar' %>">
+    <meta property="og:image" content="<%= ogImage || '/images/og-image.jpg' %>">
+    <meta property="og:site_name" content="Umarbek Fazliddinovich">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= title || 'Umarbek Fazliddinovich - Personal Website' %>">
+    <meta name="twitter:description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences.' %>">
+    <meta name="twitter:image" content="<%= ogImage || '/images/og-image.jpg' %>">
+    <meta name="twitter:creator" content="@UmarbekFU">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="/css/main.css">
+    <% if (typeof pageCSS !== 'undefined' && pageCSS) { %>
+        <link rel="stylesheet" href="<%= pageCSS %>">
+    <% } %>
+    
+    <!-- RSS Feed -->
+    <link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml">
+    
+    <!-- Canonical URL -->
+    <% if (typeof canonicalUrl !== 'undefined' && canonicalUrl) { %>
+        <link rel="canonical" href="<%= canonicalUrl %>">
+    <% } %>
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Umarbek Fazliddinovich",
+        "jobTitle": "Minimalist Designer & Developer",
+        "description": "Creating impactful digital experiences with simplicity and purpose",
+        "url": "https://um.ar",
+        "sameAs": [
+            "https://twitter.com/UmarbekFU",
+            "https://github.com/UmarbekFU",
+            "https://www.linkedin.com/in/umarbek-fazliddinovich/",
+            "https://t.me/ufblog"
+        ],
+        "worksFor": {
+            "@type": "Organization",
+            "name": "Freelance"
+        },
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Samarkand",
+            "addressCountry": "UZ"
+        }
+    }
+    </script>
+    
+    <!-- Google Analytics -->
+    <% if (typeof gaId !== 'undefined' && gaId) { %>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= gaId %>"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= gaId %>');
+    </script>
+    <% } %>
+</head>
+<body>
+    <!-- Skip to main content link for accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Site Header -->
+    <header class="site-header" role="banner">
+        <div class="container">
+            <nav class="main-nav" role="navigation" aria-label="Main navigation">
+                <div class="nav-brand">
+                    <a href="/" class="brand-link" aria-label="Home">
+                        <span class="brand-text">Umarbek</span>
+                    </a>
+                </div>
+                
+                <ul class="nav-menu" role="menubar">
+                    <li role="none">
+                        <a href="/" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'home' ? 'page' : undefined %>">Home</a>
+                    </li>
+                    <li role="none">
+                        <a href="/essays" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'essays' ? 'page' : undefined %>">Essays</a>
+                    </li>
+                    <li role="none">
+                        <a href="/projects" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'projects' ? 'page' : undefined %>">Projects</a>
+                    </li>
+                    <li role="none">
+                        <a href="/now" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'now' ? 'page' : undefined %>">Now</a>
+                    </li>
+                    <li role="none">
+                        <a href="/timeline" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'timeline' ? 'page' : undefined %>">Timeline</a>
+                    </li>
+                </ul>
+                
+                <div class="nav-actions">
+                    <button class="theme-toggle" aria-label="Toggle dark mode" aria-pressed="false">
+                        <svg class="theme-toggle-icon sun" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <svg class="theme-toggle-icon moon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    
+                    <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false" aria-controls="nav-menu">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    
+    <main id="main-content" class="site-main" role="main"> 

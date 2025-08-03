@@ -8,22 +8,22 @@
     <!-- SEO Meta Tags -->
     <title><%= title || 'Umarbek Fazliddinovich - Personal Website' %></title>
     <meta name="description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences. Currently based in Samarkand, working remotely and contributing to various projects globally.' %>">
-    <meta name="keywords" content="<%= keywords || 'minimalist designer, UX designer, developer, Samarkand, Uzbekistan, digital experiences' %>">
+    <meta name="keywords" content="<%= typeof keywords !== 'undefined' ? keywords : 'minimalist designer, UX designer, developer, Samarkand, Uzbekistan, digital experiences' %>">
     <meta name="author" content="Umarbek Fazliddinovich">
     
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="<%= title || 'Umarbek Fazliddinovich - Personal Website' %>">
     <meta property="og:description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences.' %>">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="<%= canonicalUrl || 'https://um.ar' %>">
-    <meta property="og:image" content="<%= ogImage || '/images/og-image.jpg' %>">
+    <meta property="og:url" content="<%= typeof canonicalUrl !== 'undefined' ? canonicalUrl : 'https://um.ar' %>">
+    <meta property="og:image" content="<%= typeof ogImage !== 'undefined' ? ogImage : '/images/og-image.jpg' %>">
     <meta property="og:site_name" content="Umarbek Fazliddinovich">
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<%= title || 'Umarbek Fazliddinovich - Personal Website' %>">
     <meta name="twitter:description" content="<%= description || 'Minimalist designer focused on creating impactful digital experiences.' %>">
-    <meta name="twitter:image" content="<%= ogImage || '/images/og-image.jpg' %>">
+    <meta name="twitter:image" content="<%= typeof ogImage !== 'undefined' ? ogImage : '/images/og-image.jpg' %>">
     <meta name="twitter:creator" content="@UmarbekFU">
     
     <!-- Favicon -->
@@ -108,19 +108,19 @@
                 
                 <ul class="nav-menu" role="menubar">
                     <li role="none">
-                        <a href="/" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'home' ? 'page' : undefined %>">Home</a>
+                        <a href="/" class="nav-link" role="menuitem" aria-current="<%= typeof currentPage !== 'undefined' && currentPage === 'home' ? 'page' : undefined %>">Home</a>
                     </li>
                     <li role="none">
-                        <a href="/essays" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'essays' ? 'page' : undefined %>">Essays</a>
+                        <a href="/essays" class="nav-link" role="menuitem" aria-current="<%= typeof currentPage !== 'undefined' && currentPage === 'essays' ? 'page' : undefined %>">Essays</a>
                     </li>
                     <li role="none">
-                        <a href="/projects" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'projects' ? 'page' : undefined %>">Projects</a>
+                        <a href="/projects" class="nav-link" role="menuitem" aria-current="<%= typeof currentPage !== 'undefined' && currentPage === 'projects' ? 'page' : undefined %>">Projects</a>
                     </li>
                     <li role="none">
-                        <a href="/now" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'now' ? 'page' : undefined %>">Now</a>
+                        <a href="/now" class="nav-link" role="menuitem" aria-current="<%= typeof currentPage !== 'undefined' && currentPage === 'now' ? 'page' : undefined %>">Now</a>
                     </li>
                     <li role="none">
-                        <a href="/timeline" class="nav-link" role="menuitem" aria-current="<%= currentPage === 'timeline' ? 'page' : undefined %>">Timeline</a>
+                        <a href="/timeline" class="nav-link" role="menuitem" aria-current="<%= typeof currentPage !== 'undefined' && currentPage === 'timeline' ? 'page' : undefined %>">Timeline</a>
                     </li>
                 </ul>
                 

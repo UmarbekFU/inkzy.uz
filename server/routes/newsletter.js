@@ -13,15 +13,26 @@ const subscriptionLimiter = rateLimit({
 });
 
 // Email transporter setup
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+let transporter = null;
+
+try {
+    if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT || 587,
+            secure: false,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+        console.log('✅ Email transporter configured successfully');
+    } else {
+        console.log('⚠️  Email configuration missing, newsletter features will be disabled');
     }
-});
+} catch (error) {
+    console.error('❌ Email transporter configuration failed:', error.message);
+}
 
 // Subscribe to newsletter
 router.post('/subscribe', subscriptionLimiter, [
@@ -69,24 +80,31 @@ router.post('/subscribe', subscriptionLimiter, [
 
         await subscriber.save();
 
-        // Send confirmation email
-        const confirmationUrl = `${req.protocol}://${req.get('host')}/api/newsletter/confirm/${subscriber.confirmationToken}`;
-        
-        const mailOptions = {
-            from: process.env.EMAIL_FROM,
-            to: email,
-            subject: 'Confirm your newsletter subscription',
-            html: `
-                <h2>Welcome to Umarbek's Newsletter!</h2>
-                <p>Hi ${name},</p>
-                <p>Thank you for subscribing to my newsletter. To complete your subscription, please click the link below:</p>
-                <p><a href="${confirmationUrl}">Confirm Subscription</a></p>
-                <p>If you didn't request this subscription, you can safely ignore this email.</p>
-                <p>Best regards,<br>Umarbek</p>
-            `
-        };
+        // Send confirmation email if transporter is available
+        if (transporter) {
+            try {
+                const confirmationUrl = `${req.protocol}://${req.get('host')}/api/newsletter/confirm/${subscriber.confirmationToken}`;
+                
+                const mailOptions = {
+                    from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Confirm your newsletter subscription',
+                    html: `
+                        <h2>Welcome to Umarbek's Newsletter!</h2>
+                        <p>Hi ${name},</p>
+                        <p>Thank you for subscribing to my newsletter. To complete your subscription, please click the link below:</p>
+                        <p><a href="${confirmationUrl}">Confirm Subscription</a></p>
+                        <p>If you didn't request this subscription, you can safely ignore this email.</p>
+                        <p>Best regards,<br>Umarbek</p>
+                    `
+                };
 
-        await transporter.sendMail(mailOptions);
+                await transporter.sendMail(mailOptions);
+            } catch (emailError) {
+                console.error('Failed to send confirmation email:', emailError.message);
+                // Don't fail the subscription if email fails
+            }
+        }
 
         res.json({ 
             success: true, 

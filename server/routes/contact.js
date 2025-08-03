@@ -12,15 +12,26 @@ const contactLimiter = rateLimit({
 });
 
 // Email transporter setup
-const transporter = nodemailer.createTransporter({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: false,
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
+let transporter = null;
+
+try {
+    if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASS) {
+        transporter = nodemailer.createTransport({
+            host: process.env.EMAIL_HOST,
+            port: process.env.EMAIL_PORT || 587,
+            secure: false,
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS
+            }
+        });
+        console.log('✅ Contact email transporter configured successfully');
+    } else {
+        console.log('⚠️  Contact email configuration missing, contact form will be disabled');
     }
-});
+} catch (error) {
+    console.error('❌ Contact email transporter configuration failed:', error.message);
+}
 
 // Submit contact form
 router.post('/', contactLimiter, [
@@ -88,11 +99,20 @@ router.post('/', contactLimiter, [
             `
         };
 
-        // Send both emails
-        await Promise.all([
-            transporter.sendMail(adminMailOptions),
-            transporter.sendMail(userMailOptions)
-        ]);
+        // Send both emails if transporter is available
+        if (transporter) {
+            try {
+                await Promise.all([
+                    transporter.sendMail(adminMailOptions),
+                    transporter.sendMail(userMailOptions)
+                ]);
+            } catch (emailError) {
+                console.error('Failed to send contact form emails:', emailError.message);
+                // Still return success to user, but log the error
+            }
+        } else {
+            console.log('Contact form submitted but email sending is disabled');
+        }
 
         res.json({ 
             success: true, 

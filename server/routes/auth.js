@@ -6,6 +6,11 @@ router.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
         
+        // Check if admin credentials are configured
+        if (!process.env.ADMIN_USERNAME || !process.env.ADMIN_PASSWORD || !process.env.JWT_SECRET) {
+            return res.status(500).json({ error: 'Admin authentication not configured' });
+        }
+        
         // Replace with your actual authentication logic
         if (username === process.env.ADMIN_USERNAME && 
             password === process.env.ADMIN_PASSWORD) {

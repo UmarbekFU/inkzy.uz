@@ -5,78 +5,95 @@
     currentPage: 'home'
 }) %>
 
-<main class="site-main">
-    <!-- Hero Section -->
-    <section class="hero" id="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="intro-text">
-                    <h1 class="name">Umarbek Fazliddinovich</h1>
-                    <p class="title">Minimalist Designer & Developer</p>
-                    <p class="subtitle">Creating impactful digital experiences with simplicity and purpose</p>
-                </div>
-                
-                <div class="hero-actions">
-                    <a href="#about" class="btn btn-primary">Learn More</a>
-                    <a href="#contact" class="btn btn-secondary">Get in Touch</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="scroll-indicator">
-            <div class="scroll-badge">
-                <span class="scroll-arrow">↓</span>
-            </div>
-        </div>
-    </section>
+<div class="scroll-indicator">
+    <div class="scroll-circle"></div>
+</div>
 
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <h2 class="section-title">About Me</h2>
-            <div class="about-content">
-                <div class="about-intro">
-                    <div class="speech-bubble">
-                        <p>I'm a minimalist designer focused on creating impactful digital experiences.</p>
-                    </div>
-                    <p>I believe in simplicity, freedom, and continuous learning. My approach combines minimalist design principles with antifragile thinking.</p>
-                    <p>Currently based in Samarkand, working remotely and contributing to various projects globally.</p>
-                </div>
-                
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Design</h3>
-                        <ul>
-                            <li>User Experience (UX)</li>
-                            <li>User Interface (UI)</li>
-                            <li>Visual Design</li>
-                            <li>Prototyping</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <h3>Development</h3>
-                        <ul>
-                            <li>Frontend Development</li>
-                            <li>Backend Development</li>
-                            <li>Progressive Web Apps</li>
-                            <li>Performance Optimization</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="skill-category">
-                        <h3>Philosophy</h3>
-                        <ul>
-                            <li>Minimalism</li>
-                            <li>Antifragile Thinking</li>
-                            <li>Continuous Learning</li>
-                            <li>User-Centric Design</li>
-                        </ul>
-                    </div>
-                </div>
+<div class="paper-plane">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4.5 19.5L19.5 4.5M19.5 4.5L8.25 21L7.5 13.5L19.5 4.5ZM19.5 4.5L3 10.5L10.5 13.5L19.5 4.5Z" 
+              stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+</div>
+
+<div class="rat">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <path class="rat-body" d="M70,50 Q90,50 95,45 L95,55 Q90,60 70,60 Q60,60 50,55 L45,65 Q40,70 30,70 Q20,70 15,65 L10,60 L10,40 L15,35 Q20,30 30,30 Q40,30 45,35 L50,45 Q60,40 70,40 Z"/>
+        <circle class="rat-eye" cx="75" cy="47" r="2"/>
+        <path class="rat-ear" d="M65,35 Q70,30 75,35 L70,40 Z"/>
+        <path class="rat-tail" d="M10,50 Q0,50 0,40"/>
+    </svg>
+</div>
+
+<section class="hero">
+    <div class="hero-content">
+        <div class="name-container">
+            <span class="intro-text">I'm</span>
+            <h1 class="name">Umarbek</h1>
+        </div>
+    </div>
+</section>
+
+<section class="about" id="about">
+    <h2 class="section-title"><a href="/about" class="about-link">About Me</a></h2>
+    <div class="speech-bubble">
+        <p>I'm Umarbek, writing about things I'm interested in.</p>
+    </div>
+    <p>I believe in simplicity, freedom, and continuous learning. My approach combines minimalist design principles with antifragile thinking.</p>
+    <p>Currently based in Samarkand, working remotely and contributing to various projects globally.</p>
+</section>
+
+<section id="now" class="now-section">
+    <div class="section-anchor" id="now"></div>
+    <div class="now-window">
+        <div class="window-header">
+            <span class="window-title">Now</span>
+            <div class="window-controls">
+                <span class="control minimize"></span>
+                <span class="control maximize"></span>
+                <span class="control close"></span>
             </div>
         </div>
-    </section>
+        <div class="window-content">
+            <div class="now-content">
+                <p class="now-explanation">
+                    Everyone has an "About" page telling about their past; mine is a "Now" page telling what's important right now. Social media is full of small daily stuff; here I show the big picture—my main focus, projects, and interests at the moment. The idea isn't mine—I took it from nownownow.com, liked it, and made my own.
+                </p>
+               
+                <div class="now-divider">---</div>
+                 
+                <ul class="now-list">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+ 
+                <footer class="now-footer">
+                    <p>Last updated: December 2023</p>
+                </footer>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="social-links">
+    <a href="https://x.com/umarHQ" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <svg class="social-icon x-twitter" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+    </a>
+    <a href="https://github.com/UmarbekFU" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Github">
+        <svg class="social-icon github" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+        </svg>
+    </a>
+    <a href="mailto:umarbek@example.com" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Email">
+        <svg class="social-icon email" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+        </svg>
+    </a>
+</div>
 
     <!-- Current Work Section -->
     <section class="now-section" id="now">

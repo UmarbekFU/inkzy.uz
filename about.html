@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Umarbek</title>
+    <link rel="stylesheet" href="about.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="about-page">
+        <div class="about-container">
+            <!-- Header -->
+            <header class="about-header">
+                <a href="./home/index.html" class="back-link" aria-label="Back to home">
+                    <svg viewBox="0 0 24 24" width="24" height="24">
+                        <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+                <h1>About</h1>
+            </header>
+
+            <!-- Main Content -->
+            <section class="main-content">
+                <div class="markdown-content">
+                    <p>I'm a web developer and digital creator based in Samarkand, Uzbekistan. I write about technology, design, and the future of digital experiences.</p>
+                    
+                    <p>I believe in simplicity, continuous learning, and creating meaningful digital systems that help people.</p>
+
+                    <h2>How I think</h2>
+                    
+                    <p><strong>I single-task.</strong> I'm into only one thing at a time, focusing on it to completion. This helps me produce better work and maintain clarity.</p>
+                    
+                    <p><strong>I think long-term.</strong> My present life is in service of my future self. I make decisions that benefit me not just today, but years from now.</p>
+                    
+                    <p><strong>I'm deliberate.</strong> I don't believe in the "I can't help the way I am" approach to life. I choose my actions and take responsibility for them.</p>
+                    
+                    <p><strong>I value time.</strong> I feel the precious value of time, most of the time. Every hour wasted is an opportunity lost.</p>
+
+                    <h2>What I'm doing now</h2>
+                    
+                    <p>I'm focused on building better digital experiences and sharing what I learn along the way.</p>
+                    
+                    <ul>
+                        <li>Developing websites and digital products for clients</li>
+                        <li>Writing about technology and design</li>
+                        <li>Learning new technologies and frameworks</li>
+                        <li>Contributing to open-source projects</li>
+                    </ul>
+
+                    <h2>Get in touch</h2>
+                    
+                    <p>I'm always interested in new opportunities and collaborations. If you'd like to work together or just want to say hello, feel free to reach out.</p>
+                    
+                    <p><a href="mailto:umarbek@example.com">Email me</a></p>
+
+                    <h2>My journey</h2>
+                    
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Year</th>
+                                <th>What happened</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>2020</strong></td>
+                                <td>Started learning web development and design principles. Began exploring the world of technology and digital creation.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2021</strong></td>
+                                <td>Began working on personal projects and building portfolio. Started experimenting with different technologies and frameworks.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2022</strong></td>
+                                <td>Started writing essays and sharing thoughts online. Began documenting my journey and experiences in technology.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2023</strong></td>
+                                <td>Launched personal website and began offering services. Started working with clients and building real-world projects.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>2024</strong></td>
+                                <td>Continuous growth and learning. Expanding skills in web development, design, and digital innovation.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Simple fade-in animation
+            gsap.from('.about-header', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.markdown-content', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                delay: 0.2,
+                ease: 'power2.out'
+            });
+        });
+    </script>
+</body>
+</html> 

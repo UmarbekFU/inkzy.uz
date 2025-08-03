@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Umarbek</title>
+    <link rel="stylesheet" href="public/css/base.css">
+    <style>
+        /* Gallery Styles - Inspired by Ali Gallop's actual website */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --accent-color: #000000;
+            --overlay-bg: rgba(0, 0, 0, 0.8);
+            --transition-slow: 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            overflow: hidden;
+            cursor: none;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom Cursor */
+        .custom-cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: width 0.2s ease, height 0.2s ease;
+        }
+
+        .custom-cursor.active {
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Gallery Container */
+        .gallery-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Gallery Item - More subtle like Ali Gallop's */
+        .gallery-item {
+            position: absolute;
+            top: -300px;
+            left: 0;
+            width: 250px;
+            height: 200px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform var(--transition-slow), box-shadow var(--transition-normal);
+            cursor: pointer;
+            will-change: transform, opacity;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Back Button - Consistent with other pages */
+        .back-btn {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            opacity: 0.8;
+            transition: all var(--transition-normal);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .back-btn:hover {
+            opacity: 1;
+            transform: translateX(-4px);
+            background: rgba(255, 255, 255, 1);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .back-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Fullscreen Modal */
+        .fullscreen-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--overlay-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity var(--transition-normal), visibility var(--transition-normal);
+        }
+
+        .fullscreen-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 4px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        /* Thumbnail Preview - More subtle */
+        .thumbnail-preview {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 120px;
+            height: 80px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.7rem;
+            color: rgba(0, 0, 0, 0.6);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+        }
+
+        .thumbnail-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #modalImage,
+        #modalVideo {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .custom-cursor {
+                display: none;
+            }
+
+            .back-btn {
+                top: 1rem;
+                left: 1rem;
+                width: 40px;
+                height: 40px;
+            }
+
+            .back-btn svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .thumbnail-preview {
+                width: 100px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="custom-cursor"></div>
+
+            <a href="home/index.html" class="back-btn" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </a>
+
+    <div class="gallery-container" id="galleryContainer">
+        <!-- Gallery items will be dynamically loaded here -->
+    </div>
+
+    <div class="fullscreen-modal" id="fullscreenModal">
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+        <img src="" alt="Fullscreen Image" class="modal-content" id="modalImage">
+        <video src="" controls class="modal-content" id="modalVideo"></video>
+    </div>
+
+    <div class="thumbnail-preview" id="thumbnailPreview">
+        <!-- Thumbnail will be rendered here -->
+    </div>
+
+    <script>
+        const galleryContainer = document.getElementById('galleryContainer');
+        const customCursor = document.querySelector('.custom-cursor');
+        const fullscreenModal = document.getElementById('fullscreenModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const thumbnailPreview = document.getElementById('thumbnailPreview');
+
+        let galleryItems = [];
+        let animationFrameId;
+        let lastTimestamp = 0;
+        const itemSpeedMultiplier = 0.03; // Slower, more elegant speed
+        const touchSensitivity = 0.3; // More subtle touch sensitivity
+
+        // Fetch gallery items from API
+        async function fetchGalleryItems() {
+            try {
+                const response = await fetch('/api/gallery');
+                const data = await response.json();
+                if (data.success) {
+                    galleryItems = data.data.map(item => ({
+                        ...item,
+                        element: null,
+                        currentY: item.position.y || -Math.random() * window.innerHeight,
+                        currentX: item.position.x || Math.random() * (window.innerWidth - 300),
+                        rotation: item.rotation || (Math.random() - 0.5) * 15, // Less rotation
+                        fallSpeed: item.fallSpeed || (0.3 + Math.random() * 0.8), // Slower speed
+                        size: {
+                            width: item.size?.width || (180 + Math.random() * 80), // Smaller items
+                            height: item.size?.height || (180 + Math.random() * 80)
+                        }
+                    }));
+                    renderGalleryItems();
+                } else {
+                    console.error('Failed to fetch gallery items:', data.message);
+                }
+            } catch (error) {
+                console.error('Error fetching gallery items:', error);
+            }
+        }
+
+        // Render gallery items
+        function renderGalleryItems() {
+            galleryContainer.innerHTML = '';
+            galleryItems.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.classList.add('gallery-item');
+                itemEl.dataset.id = item._id;
+
+                let mediaElement;
+                if (item.mediaType === 'image') {
+                    mediaElement = document.createElement('img');
+                    mediaElement.src = item.mediaUrl;
+                    mediaElement.alt = item.title;
+                } else if (item.mediaType === 'video') {
+                    mediaElement = document.createElement('video');
+                    mediaElement.src = item.mediaUrl;
+                    mediaElement.loop = true;
+                    mediaElement.muted = true;
+                    mediaElement.autoplay = true;
+                    mediaElement.playsInline = true;
+                }
+
+                if (mediaElement) {
+                    itemEl.appendChild(mediaElement);
+                }
+
+                // Apply initial styles
+                itemEl.style.width = `${item.size.width}px`;
+                itemEl.style.height = `${item.size.height}px`;
+                itemEl.style.left = `${item.currentX}px`;
+                itemEl.style.top = `${item.currentY}px`;
+                itemEl.style.transform = `rotate(${item.rotation}deg)`;
+
+                item.element = itemEl;
+                galleryContainer.appendChild(itemEl);
+
+                itemEl.addEventListener('click', () => openFullscreenModal(item));
+            });
+            startAnimation();
+        }
+
+        // Animation loop - More subtle like Ali Gallop's
+        function animate(timestamp) {
+            if (!lastTimestamp) lastTimestamp = timestamp;
+            const deltaTime = timestamp - lastTimestamp;
+            lastTimestamp = timestamp;
+
+            galleryItems.forEach(item => {
+                // Update Y position based on fall speed and delta time
+                item.currentY += item.fallSpeed * itemSpeedMultiplier * deltaTime;
+
+                // If item goes off-screen, reset its position to the top
+                if (item.currentY > window.innerHeight + item.size.height) {
+                    item.currentY = -item.size.height;
+                    item.currentX = Math.random() * (window.innerWidth - item.size.width);
+                    item.fallSpeed = (0.3 + Math.random() * 0.8); // Slower speed
+                    item.rotation = (Math.random() - 0.5) * 15; // Less rotation
+                    item.size = {
+                        width: (180 + Math.random() * 80), // Smaller items
+                        height: (180 + Math.random() * 80)
+                    };
+                    item.element.style.width = `${item.size.width}px`;
+                    item.element.style.height = `${item.size.height}px`;
+                }
+
+                // Apply transform
+                item.element.style.transform = `translateY(${item.currentY}px) translateX(${item.currentX}px) rotate(${item.rotation}deg)`;
+            });
+            animationFrameId = requestAnimationFrame(animate);
+        }
+
+        function startAnimation() {
+            if (!animationFrameId) {
+                animationFrameId = requestAnimationFrame(animate);
+            }
+        }
+
+        function stopAnimation() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        // Fullscreen Modal
+        function openFullscreenModal(item) {
+            modalImage.style.display = 'none';
+            modalVideo.style.display = 'none';
+
+            if (item.mediaType === 'image') {
+                modalImage.src = item.mediaUrl;
+                modalImage.alt = item.title;
+                modalImage.style.display = 'block';
+            } else if (item.mediaType === 'video') {
+                modalVideo.src = item.mediaUrl;
+                modalVideo.play();
+                modalVideo.style.display = 'block';
+            }
+            fullscreenModal.classList.add('active');
+            stopAnimation();
+        }
+
+        modalCloseBtn.addEventListener('click', () => {
+            fullscreenModal.classList.remove('active');
+            modalVideo.pause();
+            startAnimation();
+        });
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && fullscreenModal.classList.contains('active')) {
+                modalCloseBtn.click();
+            }
+        });
+
+        // Custom Cursor movement
+        document.addEventListener('mousemove', (e) => {
+            customCursor.style.left = `${e.clientX}px`;
+            customCursor.style.top = `${e.clientY}px`;
+        });
+
+        // Touch/Drag interaction for moving items
+        let isDragging = false;
+        let startY = 0;
+        let initialScrollY = 0;
+
+        galleryContainer.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.gallery-item')) return;
+            isDragging = true;
+            startY = e.clientY;
+            initialScrollY = galleryContainer.scrollTop;
+            customCursor.classList.add('active');
+        });
+
+        galleryContainer.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.clientY - startY;
+            galleryItems.forEach(item => {
+                item.currentY += deltaY * touchSensitivity;
+                item.element.style.transform = `translateY(${item.currentY}px) translateX(${item.currentX}px) rotate(${item.rotation}deg)`;
+            });
+            startY = e.clientY;
+        });
+
+        galleryContainer.addEventListener('mouseup', () => {
+            isDragging = false;
+            customCursor.classList.remove('active');
+        });
+
+        galleryContainer.addEventListener('mouseleave', () => {
+            isDragging = false;
+            customCursor.classList.remove('active');
+        });
+
+        // Touch events for mobile
+        galleryContainer.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.gallery-item')) return;
+            isDragging = true;
+            startY = e.touches[0].clientY;
+            initialScrollY = galleryContainer.scrollTop;
+        });
+
+        galleryContainer.addEventListener('touchmove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.touches[0].clientY - startY;
+            galleryItems.forEach(item => {
+                item.currentY += deltaY * touchSensitivity;
+                item.element.style.transform = `translateY(${item.currentY}px) translateX(${item.currentX}px) rotate(${item.rotation}deg)`;
+            });
+            startY = e.touches[0].clientY;
+            e.preventDefault();
+        }, { passive: false });
+
+        galleryContainer.addEventListener('touchend', () => {
+            isDragging = false;
+        });
+
+        // Initial fetch and render
+        fetchGalleryItems();
+    </script>
+</body>
+</html> 

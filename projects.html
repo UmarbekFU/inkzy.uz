@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects - Umarbek</title>
+    <link rel="stylesheet" href="public/css/base.css">
+    <style>
+        /* Refined Apple-like Design */
+        :root {
+            --bg-color: #f5f3f0;
+            --text-color: #2c2c2c;
+            --text-muted: #6b6b6b;
+            --text-secondary: #6e6e73;
+            --accent-color: #1e3a8a;
+            --accent-hover: #1e40af;
+            --border-color: #d1d5db;
+            --card-bg: rgba(255, 255, 255, 0.8);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #1a1a1a;
+                --text-color: #f5f5f5;
+                --text-muted: #a1a1a6;
+                --text-secondary: #86868b;
+                --card-bg: rgba(28, 28, 30, 0.8);
+                --border-color: #38383a;
+            }
+        }
+
+        body {
+            background: var(--bg-color);
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+        }
+
+        .projects-container {
+            max-width: 800px;
+            margin: 6rem auto;
+            padding: 0 2rem;
+        }
+
+        .projects-header {
+            margin-bottom: 4rem;
+        }
+
+        .projects-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .projects-header p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        .projects-timeline {
+            position: relative;
+        }
+
+        .projects-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-color), transparent);
+        }
+
+        .project-item {
+            position: relative;
+            margin-bottom: 4rem;
+            padding-left: 3rem;
+        }
+
+        .project-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0.5rem;
+            width: 14px;
+            height: 14px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            border: 3px solid var(--bg-color);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .project-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .project-date {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.05em;
+        }
+
+        .project-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .project-description {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(30, 58, 138, 0.1);
+            color: var(--accent-color);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(30, 58, 138, 0.2);
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.875rem;
+            transition: all var(--transition-normal);
+        }
+
+        .project-link:hover {
+            color: var(--accent-hover);
+            transform: translateX(4px);
+        }
+
+        .project-link svg {
+            width: 16px;
+            height: 16px;
+            transition: transform var(--transition-normal);
+        }
+
+        .project-link:hover svg {
+            transform: translateX(2px);
+        }
+
+        .back-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            opacity: 0.8;
+            transition: all var(--transition-normal);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            z-index: 100;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            transform: translateX(-4px);
+            background: var(--bg-color);
+            border-color: var(--accent-color);
+            box-shadow: var(--shadow-md);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        @media (max-width: 768px) {
+            .projects-container {
+                margin: 4rem auto;
+                padding: 0 1rem;
+            }
+
+            .projects-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .project-item {
+                padding-left: 2rem;
+            }
+
+            .project-title {
+                font-size: 1.5rem;
+            }
+
+            .project-description {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+            <a href="./home/index.html" class="back-link" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </a>
+
+    <main class="projects-container">
+        <header class="projects-header">
+            <h1>Projects</h1>
+            <p>A curated collection of my work. Each project represents a unique challenge and solution.</p>
+        </header>
+
+        <div class="projects-timeline">
+            <article class="project-item">
+                <div class="project-date">2024</div>
+                <h3 class="project-title">Personal Website</h3>
+                <p class="project-description">
+                    A minimalist personal website built with pure HTML, CSS, and JavaScript. Features a clean design with smooth animations, responsive layout, and a focus on content-first approach. The site showcases my work, thoughts, and journey in a way that reflects my design philosophy of simplicity and clarity.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">HTML</span>
+                    <span class="tech-tag">CSS</span>
+                    <span class="tech-tag">JavaScript</span>
+                    <span class="tech-tag">GSAP</span>
+                </div>
+                <a href="#" class="project-link">
+                    View Project
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </article>
+
+            <article class="project-item">
+                <div class="project-date">2024</div>
+                <h3 class="project-title">Minimalist Task Manager</h3>
+                <p class="project-description">
+                    A clean, distraction-free task management application focused on simplicity and efficiency. Built with React and TypeScript, it features a minimalist interface that helps users focus on what matters most. The app includes features like task categorization, progress tracking, and a beautiful, intuitive design that reduces cognitive load.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Firebase</span>
+                    <span class="tech-tag">Tailwind CSS</span>
+                </div>
+                <a href="#" class="project-link">
+                    View Project
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </article>
+
+            <article class="project-item">
+                <div class="project-date">2023</div>
+                <h3 class="project-title">Book Notes Platform</h3>
+                <p class="project-description">
+                    A personal knowledge management system for collecting and organizing insights from books. Built with a focus on searchability and easy retrieval, it allows me to capture key ideas, quotes, and learnings from my reading. The platform features a clean interface for writing, categorizing, and discovering connections between different books and concepts.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Next.js</span>
+                    <span class="tech-tag">Markdown</span>
+                    <span class="tech-tag">PostgreSQL</span>
+                    <span class="tech-tag">Prisma</span>
+                </div>
+                <a href="#" class="project-link">
+                    View Project
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </article>
+
+            <article class="project-item">
+                <div class="project-date">2023</div>
+                <h3 class="project-title">Design System Library</h3>
+                <p class="project-description">
+                    A comprehensive design system built for consistency and scalability across multiple projects. Includes reusable components, typography scales, color palettes, and spacing systems. The library is documented with examples and usage guidelines, making it easy for teams to maintain design consistency and speed up development.
+                </p>
+                <div class="project-tech">
+                    <span class="tech-tag">Storybook</span>
+                    <span class="tech-tag">React</span>
+                    <span class="tech-tag">TypeScript</span>
+                    <span class="tech-tag">Figma</span>
+                </div>
+                <a href="#" class="project-link">
+                    View Project
+                    <svg viewBox="0 0 24 24" width="16" height="16">
+                        <path d="M7 17L17 7M17 7H7M17 7V17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    </svg>
+                </a>
+            </article>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.projects-header', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power3.out'
+            });
+
+            gsap.from('.project-item', {
+                x: -50,
+                opacity: 0,
+                duration: 1,
+                stagger: 0.3,
+                ease: 'power3.out',
+                delay: 0.3
+            });
+        });
+    </script>
+</body>
+</html> 

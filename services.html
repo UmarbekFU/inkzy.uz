@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services - Umarbek</title>
+    <link rel="stylesheet" href="public/css/base.css">
+    <style>
+        /* Minimalist Design inspired by Ali Gallop */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #000000;
+            --text-muted: #666666;
+            --accent-color: #000000;
+            --border-color: #e5e5e5;
+            --hover-color: #f5f5f5;
+            --transition: 0.2s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --text-color: #ffffff;
+                --text-muted: #999999;
+                --accent-color: #ffffff;
+                --border-color: #333333;
+                --hover-color: #1a1a1a;
+            }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        .header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Service Cards */
+        .service {
+            margin: 4rem 0;
+            padding: 2rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .service:last-child {
+            border-bottom: none;
+        }
+
+        .service-header {
+            margin-bottom: 2rem;
+        }
+
+        .service-title {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-subtitle {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .service-price {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .service-description {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            color: var(--text-color);
+        }
+
+        .service-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .service-features li {
+            padding: 0.5rem 0;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .service-features li::before {
+            content: "→";
+            margin-right: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Buttons */
+        .cta-section {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--text-color);
+            color: var(--bg-color);
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border: 1px solid var(--text-color);
+        }
+
+        .cta-button:hover {
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        .cta-button.secondary {
+            background: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            margin-left: 1rem;
+        }
+
+        .cta-button.secondary:hover {
+            background: var(--hover-color);
+        }
+
+        /* Back Link - Consistent with other pages */
+        .back-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.8);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            opacity: 0.8;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            transform: translateX(-4px);
+            background: var(--bg-color);
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            margin: 6rem 0 4rem;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            font-size: 1.125rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .contact-email {
+            font-size: 1.25rem;
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-color);
+            transition: var(--transition);
+        }
+
+        .contact-email:hover {
+            opacity: 0.7;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .service-title {
+                font-size: 1.5rem;
+            }
+
+            .service-price {
+                font-size: 2rem;
+            }
+
+            .cta-button {
+                display: block;
+                margin: 1rem 0;
+            }
+
+            .cta-button.secondary {
+                margin-left: 0;
+            }
+
+            .back-link {
+                position: static;
+                display: block;
+                margin-bottom: 2rem;
+            }
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+        }
+
+        .scroll-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--border-color);
+            margin: 0.5rem 0;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .scroll-dot.active {
+            background: var(--text-color);
+        }
+
+        /* Quick Info */
+        .quick-info {
+            background: var(--hover-color);
+            padding: 2rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        .quick-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .quick-info p {
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="./home/index.html" class="back-link" aria-label="Back to home">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </a>
+
+    <div class="scroll-indicator">
+        <div class="scroll-dot active" data-section="0"></div>
+        <div class="scroll-dot" data-section="1"></div>
+        <div class="scroll-dot" data-section="2"></div>
+        <div class="scroll-dot" data-section="3"></div>
+        <div class="scroll-dot" data-section="4"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1 data-editable="services-header-title">[Page Title]</h1>
+            <p data-editable="services-header-description">[Page Description]</p>
+        </header>
+
+        <!-- Service 1: Strategy Session -->
+        <section class="service" id="strategy" data-service-id="strategy">
+            <div class="service-header">
+                <h2 class="service-title" data-editable="service-strategy-title">[Service 1 Title]</h2>
+                <p class="service-subtitle" data-editable="service-strategy-subtitle">[Service 1 Subtitle]</p>
+                <div class="service-price" data-editable="service-strategy-price">[Service 1 Price]</div>
+            </div>
+            
+            <p class="service-description" data-editable="service-strategy-description">
+                [Service 1 Description]
+            </p>
+
+            <ul class="service-features" data-editable="service-strategy-features">
+                <li>[Service 1 Feature 1]</li>
+                <li>[Service 1 Feature 2]</li>
+                <li>[Service 1 Feature 3]</li>
+                <li>[Service 1 Feature 4]</li>
+                <li>[Service 1 Feature 5]</li>
+            </ul>
+
+            <div class="cta-section">
+                <a href="mailto:umarbek@example.com?subject=Service 1 Inquiry" class="cta-button" data-editable="service-strategy-cta-text">[Service 1 CTA Text]</a>
+                <a href="#details" class="cta-button secondary" data-editable="service-strategy-secondary-cta">[Service 1 Secondary CTA]</a>
+            </div>
+        </section>
+
+        <!-- Service 2: Business Audit -->
+        <section class="service" id="audit" data-service-id="audit">
+            <div class="service-header">
+                <h2 class="service-title" data-editable="service-audit-title">[Service 2 Title]</h2>
+                <p class="service-subtitle" data-editable="service-audit-subtitle">[Service 2 Subtitle]</p>
+                <div class="service-price" data-editable="service-audit-price">[Service 2 Price]</div>
+            </div>
+            
+            <p class="service-description" data-editable="service-audit-description">
+                [Service 2 Description]
+            </p>
+
+            <ul class="service-features" data-editable="service-audit-features">
+                <li>[Service 2 Feature 1]</li>
+                <li>[Service 2 Feature 2]</li>
+                <li>[Service 2 Feature 3]</li>
+                <li>[Service 2 Feature 4]</li>
+                <li>[Service 2 Feature 5]</li>
+                <li>[Service 2 Feature 6]</li>
+                <li>[Service 2 Feature 7]</li>
+            </ul>
+
+            <div class="cta-section">
+                <a href="mailto:umarbek@example.com?subject=Service 2 Inquiry" class="cta-button" data-editable="service-audit-cta-text">[Service 2 CTA Text]</a>
+                <a href="#details" class="cta-button secondary" data-editable="service-audit-secondary-cta">[Service 2 Secondary CTA]</a>
+            </div>
+        </section>
+
+        <!-- Service 3: Growth Program -->
+        <section class="service" id="growth" data-service-id="growth">
+            <div class="service-header">
+                <h2 class="service-title" data-editable="service-growth-title">[Service 3 Title]</h2>
+                <p class="service-subtitle" data-editable="service-growth-subtitle">[Service 3 Subtitle]</p>
+                <div class="service-price" data-editable="service-growth-price">[Service 3 Price]</div>
+            </div>
+            
+            <p class="service-description" data-editable="service-growth-description">
+                [Service 3 Description]
+            </p>
+
+            <ul class="service-features" data-editable="service-growth-features">
+                <li>[Service 3 Feature 1]</li>
+                <li>[Service 3 Feature 2]</li>
+                <li>[Service 3 Feature 3]</li>
+                <li>[Service 3 Feature 4]</li>
+                <li>[Service 3 Feature 5]</li>
+                <li>[Service 3 Feature 6]</li>
+                <li>[Service 3 Feature 7]</li>
+                <li>[Service 3 Feature 8]</li>
+            </ul>
+
+            <div class="cta-section">
+                <a href="mailto:umarbek@example.com?subject=Service 3 Inquiry" class="cta-button" data-editable="service-growth-cta-text">[Service 3 CTA Text]</a>
+                <a href="#details" class="cta-button secondary" data-editable="service-growth-secondary-cta">[Service 3 Secondary CTA]</a>
+            </div>
+        </section>
+
+        <!-- Service 4: Ongoing Support -->
+        <section class="service" id="support" data-service-id="support">
+            <div class="service-header">
+                <h2 class="service-title" data-editable="service-support-title">[Service 4 Title]</h2>
+                <p class="service-subtitle" data-editable="service-support-subtitle">[Service 4 Subtitle]</p>
+                <div class="service-price" data-editable="service-support-price">[Service 4 Price]</div>
+            </div>
+            
+            <p class="service-description" data-editable="service-support-description">
+                [Service 4 Description]
+            </p>
+
+            <ul class="service-features" data-editable="service-support-features">
+                <li>[Service 4 Feature 1]</li>
+                <li>[Service 4 Feature 2]</li>
+                <li>[Service 4 Feature 3]</li>
+                <li>[Service 4 Feature 4]</li>
+                <li>[Service 4 Feature 5]</li>
+                <li>[Service 4 Feature 6]</li>
+            </ul>
+
+            <div class="cta-section">
+                <a href="mailto:umarbek@example.com?subject=Service 4 Inquiry" class="cta-button" data-editable="service-support-cta-text">[Service 4 CTA Text]</a>
+                <a href="#details" class="cta-button secondary" data-editable="service-support-secondary-cta">[Service 4 Secondary CTA]</a>
+            </div>
+        </section>
+
+        <!-- Quick Info Section -->
+        <section class="service" id="details">
+            <div class="quick-info">
+                <h3 data-editable="how-it-works-title">[How It Works Title]</h3>
+                <p data-editable="how-it-works-step1">[Step 1]</p>
+                <p data-editable="how-it-works-step2">[Step 2]</p>
+                <p data-editable="how-it-works-step3">[Step 3]</p>
+                <p data-editable="how-it-works-step4">[Step 4]</p>
+            </div>
+
+            <div class="quick-info">
+                <h3 data-editable="what-i-dont-do-title">[What I Don't Do Title]</h3>
+                <p data-editable="what-i-dont-do-1">[Item 1]</p>
+                <p data-editable="what-i-dont-do-2">[Item 2]</p>
+                <p data-editable="what-i-dont-do-3">[Item 3]</p>
+                <p data-editable="what-i-dont-do-4">[Item 4]</p>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section class="contact-section">
+            <h2 data-editable="contact-title">[Contact Title]</h2>
+            <p data-editable="contact-description">[Contact Description]</p>
+            <a href="mailto:umarbek@example.com" class="contact-email" data-editable="contact-email">[Contact Email]</a>
+        </section>
+    </div>
+
+    <script>
+        // Smooth scrolling and scroll indicator
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('.service');
+            const scrollDots = document.querySelectorAll('.scroll-dot');
+            
+            // Update scroll indicator
+            function updateScrollIndicator() {
+                const scrollPosition = window.scrollY + window.innerHeight / 2;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        scrollDots.forEach(dot => dot.classList.remove('active'));
+                        scrollDots[index].classList.add('active');
+                    }
+                });
+            }
+            
+            // Smooth scroll to section when clicking dots
+            scrollDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    sections[index].scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+            
+            // Update on scroll
+            window.addEventListener('scroll', updateScrollIndicator);
+            
+            // Initial update
+            updateScrollIndicator();
+        });
+    </script>
+</body>
+</html> 

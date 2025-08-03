@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Umarbek</title>
+    <link rel="stylesheet" href="public/css/base.css">
+    <link rel="stylesheet" href="portfolio.css">
+</head>
+<body>
+    <!-- Password Screen -->
+    <div id="passwordScreen" class="show">
+        <div class="password-container">
+            <div class="password-header">
+                <h1>Portfolio</h1>
+                <p>This is a private collection of my work. Please enter the access code to continue.</p>
+            </div>
+            <form class="password-form" id="passwordForm">
+                <input 
+                    type="password" 
+                    id="password" 
+                    class="password-input" 
+                    placeholder="Enter access code"
+                    autocomplete="off"
+                    maxlength="50"
+                >
+                <button type="submit" class="password-submit" id="submitPassword">
+                    <span id="submitText">Access</span>
+                    <span id="submitLoading" class="loading"></span>
+                </button>
+                <div class="password-hint">
+                    Contact me for the access code
+                </div>
+                <div class="attempts-left" id="attemptsLeft"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Portfolio Content -->
+    <div id="portfolioContent">
+        <a href="./home/index.html" class="back-link">← Back</a>
+
+        <div class="portfolio-container">
+            <header class="portfolio-header">
+                <h1>Portfolio</h1>
+                <p>A curated collection of my work, thoughts, and creative projects. Each piece represents a moment of exploration and growth.</p>
+            </header>
+
+            <div class="portfolio-grid" id="portfolioGrid">
+                <!-- Content will be loaded dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+    <script>
+        // Portfolio Management
+        class PortfolioManager {
+            constructor() {
+                this.password = 'portfolio2024'; // Default password
+                this.maxAttempts = 5;
+                this.attempts = 0;
+                this.isAuthenticated = false;
+                this.portfolioData = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadPortfolioData();
+                this.checkAuthentication();
+                
+                // Reset authentication on page load/refresh
+                this.resetAuthentication();
+            }
+
+            setupEventListeners() {
+                const passwordForm = document.getElementById('passwordForm');
+                const passwordInput = document.getElementById('password');
+
+                passwordForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handlePasswordSubmit();
+                });
+
+                passwordInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        this.handlePasswordSubmit();
+                    }
+                });
+            }
+
+            async handlePasswordSubmit() {
+                const passwordInput = document.getElementById('password');
+                const submitButton = document.getElementById('submitPassword');
+                const submitText = document.getElementById('submitText');
+                const submitLoading = document.getElementById('submitLoading');
+                const attemptsLeft = document.getElementById('attemptsLeft');
+
+                const password = passwordInput.value.trim();
+
+                if (!password) {
+                    this.showError('Please enter a password');
+                    return;
+                }
+
+                // Show loading state
+                submitText.style.display = 'none';
+                submitLoading.style.display = 'inline-block';
+                submitButton.disabled = true;
+
+                // Verify password locally first, then try API if available
+                try {
+                    // First try local password check
+                    if (password === this.password) {
+                        this.authenticate();
+                        return;
+                    }
+                    
+                    // If local check fails, try API (if available)
+                    try {
+                        const response = await fetch('/api/portfolio/verify', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ password })
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            this.authenticate();
+                            return;
+                        }
+                    } catch (apiError) {
+                        console.log('API not available, using local password check');
+                    }
+                    
+                    // If both local and API checks fail
+                    this.attempts++;
+                    const remainingAttempts = this.maxAttempts - this.attempts;
+                    
+                    if (remainingAttempts > 0) {
+                        attemptsLeft.textContent = `${remainingAttempts} attempts remaining`;
+                        this.showError('Incorrect password');
+                    } else {
+                        attemptsLeft.textContent = 'Too many attempts. Please try again later.';
+                        submitButton.disabled = true;
+                        passwordInput.disabled = true;
+                    }
+                } catch (error) {
+                    console.error('Error verifying password:', error);
+                    this.showError('Error verifying password');
+                }
+
+                // Reset loading state
+                submitText.style.display = 'inline';
+                submitLoading.style.display = 'none';
+                submitButton.disabled = false;
+            }
+
+            showError(message) {
+                const passwordInput = document.getElementById('password');
+                passwordInput.classList.add('error');
+                passwordInput.value = '';
+                
+                setTimeout(() => {
+                    passwordInput.classList.remove('error');
+                }, 600);
+            }
+
+            authenticate() {
+                this.isAuthenticated = true;
+                // Don't store authentication in localStorage - require password every time
+                // localStorage.setItem('portfolio_authenticated', 'true');
+                // localStorage.setItem('portfolio_auth_time', Date.now().toString());
+                
+                this.showPortfolio();
+            }
+
+            checkAuthentication() {
+                // Always show password screen on page load/refresh
+                // Remove any existing authentication
+                localStorage.removeItem('portfolio_authenticated');
+                localStorage.removeItem('portfolio_auth_time');
+                this.isAuthenticated = false;
+                
+                // Ensure password screen is visible
+                const passwordScreen = document.getElementById('passwordScreen');
+                const portfolioContent = document.getElementById('portfolioContent');
+                
+                if (passwordScreen) {
+                    passwordScreen.classList.remove('hidden');
+                    passwordScreen.style.display = 'flex';
+                }
+                
+                if (portfolioContent) {
+                    portfolioContent.classList.remove('show');
+                }
+            }
+
+            resetAuthentication() {
+                // Clear any stored authentication
+                localStorage.removeItem('portfolio_authenticated');
+                localStorage.removeItem('portfolio_auth_time');
+                sessionStorage.removeItem('portfolio_authenticated');
+                
+                // Reset authentication state
+                this.isAuthenticated = false;
+                this.attempts = 0;
+                
+                // Reset password input
+                const passwordInput = document.getElementById('password');
+                const attemptsLeft = document.getElementById('attemptsLeft');
+                
+                if (passwordInput) {
+                    passwordInput.value = '';
+                    passwordInput.disabled = false;
+                }
+                
+                if (attemptsLeft) {
+                    attemptsLeft.textContent = '';
+                }
+                
+                // Ensure password screen is visible
+                const passwordScreen = document.getElementById('passwordScreen');
+                const portfolioContent = document.getElementById('portfolioContent');
+                
+                if (passwordScreen) {
+                    passwordScreen.classList.remove('hidden');
+                    passwordScreen.style.display = 'flex';
+                }
+                
+                if (portfolioContent) {
+                    portfolioContent.classList.remove('show');
+                }
+            }
+
+            showPortfolio() {
+                const passwordScreen = document.getElementById('passwordScreen');
+                const portfolioContent = document.getElementById('portfolioContent');
+
+                passwordScreen.classList.add('hidden');
+                
+                setTimeout(() => {
+                    passwordScreen.style.display = 'none';
+                    portfolioContent.classList.add('show');
+                }, 400);
+            }
+
+            async loadPortfolioData() {
+                try {
+                    const response = await fetch('/api/portfolio/data');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.portfolioData = result.data.portfolioData;
+                    } else {
+                        console.error('Error loading portfolio data:', result.message);
+                        // Fallback to default data
+                        this.portfolioData = [
+                            {
+                                id: 1,
+                                title: "Book Notes",
+                                description: "A personal knowledge base containing detailed notes and insights from books I've read. Features searchable content, categorization, and a clean reading interface.",
+                                image: "📚",
+                                tech: ["HTML", "CSS", "JavaScript", "Markdown"],
+                                link: "book-notes.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 2,
+                                title: "Personal Website",
+                                description: "A minimalist, Apple-inspired personal website showcasing essays, projects, and thoughts. Features responsive design, dark mode, and smooth animations.",
+                                image: "🌐",
+                                tech: ["HTML", "CSS", "JavaScript", "Node.js"],
+                                link: "home/index.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 3,
+                                title: "Essays Collection",
+                                description: "A curated collection of essays and thoughts on various topics. Features clean typography, reading progress, and a distraction-free reading experience.",
+                                image: "✍️",
+                                tech: ["HTML", "CSS", "JavaScript", "Node.js"],
+                                link: "essays.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 4,
+                                title: "Services Platform",
+                                description: "A comprehensive services showcase with detailed offerings, pricing, and contact information. Built with modern web technologies.",
+                                image: "🛠️",
+                                tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+                                link: "services.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 5,
+                                title: "Photo Gallery",
+                                description: "An elegant photo gallery showcasing visual work and photography. Features lightbox viewing, categories, and smooth transitions.",
+                                image: "📸",
+                                tech: ["HTML", "CSS", "JavaScript", "Image Optimization"],
+                                link: "gallery.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 6,
+                                title: "Projects Showcase",
+                                description: "A detailed showcase of various projects and case studies. Features project descriptions, technologies used, and live demos.",
+                                image: "🚀",
+                                tech: ["HTML", "CSS", "JavaScript", "Interactive Design"],
+                                link: "projects.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 7,
+                                title: "About Page",
+                                description: "A personal about page with background information, skills, and professional experience. Clean and professional design.",
+                                image: "👤",
+                                tech: ["HTML", "CSS", "JavaScript", "Personal Branding"],
+                                link: "about.html",
+                                status: "completed"
+                            },
+                            {
+                                id: 8,
+                                title: "Lists Collection",
+                                description: "A curated collection of lists, favorite things, and personal recommendations. Features clean organization and easy navigation.",
+                                image: "📋",
+                                tech: ["HTML", "CSS", "JavaScript", "Content Curation"],
+                                link: "lists.html",
+                                status: "completed"
+                            }
+                        ];
+                    }
+                    
+                    this.renderPortfolio();
+                } catch (error) {
+                    console.error('Error loading portfolio data:', error);
+                    // Fallback to default data
+                    this.portfolioData = [
+                        {
+                            id: 1,
+                            title: "Book Notes",
+                            description: "A personal knowledge base containing detailed notes and insights from books I've read. Features searchable content, categorization, and a clean reading interface.",
+                            image: "📚",
+                            tech: ["HTML", "CSS", "JavaScript", "Markdown"],
+                            link: "book-notes.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 2,
+                            title: "Personal Website",
+                            description: "A minimalist, Apple-inspired personal website showcasing essays, projects, and thoughts. Features responsive design, dark mode, and smooth animations.",
+                            image: "🌐",
+                            tech: ["HTML", "CSS", "JavaScript", "Node.js"],
+                            link: "index.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 3,
+                            title: "Essays Collection",
+                            description: "A curated collection of essays and thoughts on various topics. Features clean typography, reading progress, and a distraction-free reading experience.",
+                            image: "✍️",
+                            tech: ["HTML", "CSS", "JavaScript", "Node.js"],
+                            link: "essays.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 4,
+                            title: "Services Platform",
+                            description: "A comprehensive services showcase with detailed offerings, pricing, and contact information. Built with modern web technologies.",
+                            image: "🛠️",
+                            tech: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+                            link: "services.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 5,
+                            title: "Photo Gallery",
+                            description: "An elegant photo gallery showcasing visual work and photography. Features lightbox viewing, categories, and smooth transitions.",
+                            image: "📸",
+                            tech: ["HTML", "CSS", "JavaScript", "Image Optimization"],
+                            link: "gallery.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 6,
+                            title: "Projects Showcase",
+                            description: "A detailed showcase of various projects and case studies. Features project descriptions, technologies used, and live demos.",
+                            image: "🚀",
+                            tech: ["HTML", "CSS", "JavaScript", "Interactive Design"],
+                            link: "projects.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 7,
+                            title: "About Page",
+                            description: "A personal about page with background information, skills, and professional experience. Clean and professional design.",
+                            image: "👤",
+                            tech: ["HTML", "CSS", "JavaScript", "Personal Branding"],
+                            link: "about.html",
+                            status: "completed"
+                        },
+                        {
+                            id: 8,
+                            title: "Lists Collection",
+                            description: "A curated collection of lists, favorite things, and personal recommendations. Features clean organization and easy navigation.",
+                            image: "📋",
+                            tech: ["HTML", "CSS", "JavaScript", "Content Curation"],
+                            link: "lists.html",
+                            status: "completed"
+                        }
+                    ];
+                    this.renderPortfolio();
+                }
+            }
+
+            renderPortfolio() {
+                const portfolioGrid = document.getElementById('portfolioGrid');
+                
+                portfolioGrid.innerHTML = this.portfolioData.map(item => `
+                <div class="portfolio-item">
+                        <div class="portfolio-image">${item.image}</div>
+                        <h3 class="portfolio-title">${item.title}</h3>
+                        <p class="portfolio-description">${item.description}</p>
+                        <div class="portfolio-tech">
+                            ${item.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                        <div class="portfolio-links">
+                            <a href="${item.link}" class="portfolio-link">View Project →</a>
+                            <span class="portfolio-status status-${item.status}">${item.status}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Admin methods for updating content
+            updatePassword(newPassword) {
+                this.password = newPassword;
+                // In a real implementation, this would be saved to the server
+                console.log('Password updated:', newPassword);
+            }
+
+            updatePortfolioData(newData) {
+                this.portfolioData = newData;
+                this.renderPortfolio();
+                // In a real implementation, this would be saved to the server
+                console.log('Portfolio data updated:', newData);
+            }
+        }
+
+        // Initialize portfolio manager
+        const portfolioManager = new PortfolioManager();
+
+        // Expose for admin panel access
+        window.portfolioManager = portfolioManager;
+
+        // Enhanced scrolling experience
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scroll to sections
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe portfolio items
+            portfolioItems.forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                observer.observe(item);
+            });
+
+            // Smooth scroll on navigation
+            const backLink = document.querySelector('.back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    document.body.style.scrollBehavior = 'smooth';
+                    window.history.back();
+                });
+            }
+
+            // Enforce password protection on page visibility change
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    // Reset authentication when user returns to the page
+                    if (window.portfolioManager) {
+                        window.portfolioManager.resetAuthentication();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

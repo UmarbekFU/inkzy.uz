@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Detail - Umarbek</title>
+    <link rel="stylesheet" href="book-notes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="notes-page">
+        <!-- Header -->
+        <header class="notes-header">
+            <a href="./book-notes.html" class="back-link" aria-label="Back to notes">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </a>
+            <h1 id="note-title">Note Title</h1>
+            <p class="subtitle" id="note-subtitle">Note subtitle and description</p>
+        </header>
+
+        <!-- Note Detail Container -->
+        <div class="note-detail-container">
+            <article class="note-detail-item">
+                <div class="note-meta">
+                    <span class="note-type" id="note-type">Book</span>
+                    <span class="note-date" id="note-date">December 2024</span>
+                    <span class="note-rating" id="note-rating">9/10</span>
+                </div>
+                
+                <h2 class="note-title" id="detail-title">Atomic Habits</h2>
+                <p class="note-author" id="detail-author">by James Clear</p>
+                
+                <div class="note-content" id="note-content">
+                    <h3>Overview</h3>
+                    <p>Atomic Habits by James Clear is a comprehensive guide to building good habits and breaking bad ones. The book introduces the concept of atomic habits - tiny changes that lead to remarkable results.</p>
+                    
+                    <h3>Key Concepts</h3>
+                    <h4>1. The 1% Improvement Rule</h4>
+                    <p>Small changes compound over time. A 1% improvement each day leads to a 37x improvement over a year. The key insight: focus on systems, not goals.</p>
+                    
+                    <h4>2. Identity-Based Habits</h4>
+                    <p>Habits are more powerful when tied to identity. Instead of "I want to read more," think "I am a reader." This creates lasting change.</p>
+                    
+                    <h4>3. The Four Laws of Behavior Change</h4>
+                    <ul>
+                        <li><strong>Make it obvious:</strong> Design your environment to make good habits obvious</li>
+                        <li><strong>Make it attractive:</strong> Pair habits with something you enjoy</li>
+                        <li><strong>Make it easy:</strong> Reduce friction for good habits</li>
+                        <li><strong>Make it satisfying:</strong> Provide immediate rewards</li>
+                    </ul>
+                    
+                    <h3>Practical Applications</h3>
+                    <p>I've applied these principles to my daily routine:</p>
+                    <ul>
+                        <li>Placed my book on my pillow to make reading obvious</li>
+                        <li>Paired morning coffee with journaling</li>
+                        <li>Reduced friction by preparing workout clothes the night before</li>
+                        <li>Tracked habits to provide satisfaction</li>
+                    </ul>
+                    
+                    <h3>Key Takeaways</h3>
+                    <p>Identity-based habits are more powerful than outcome-based ones. The environment shapes behavior more than motivation. Stacking habits creates powerful routines. Small changes compound into massive results over time.</p>
+                    
+                    <h3>Personal Reflection</h3>
+                    <p>This book fundamentally changed how I think about improvement. Instead of focusing on big goals, I now focus on building systems that make good habits inevitable. The concept of identity-based habits was particularly powerful - I now think of myself as someone who reads, exercises, and learns continuously.</p>
+                </div>
+                
+                <div class="note-tags" id="note-tags">
+                    <span class="tag">Productivity</span>
+                    <span class="tag">Habits</span>
+                    <span class="tag">Self-Improvement</span>
+                    <span class="tag">Psychology</span>
+                </div>
+                
+                <div class="note-actions">
+                    <a href="./book-notes.html" class="back-to-notes">← Back to all notes</a>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get note ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const noteId = urlParams.get('id');
+            
+            // In a real implementation, this would fetch from a database
+            // For now, we'll simulate loading different notes
+            loadNoteContent(noteId);
+            
+            // Initial animations
+            gsap.from('.notes-header', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.note-detail-item', {
+                y: 30,
+                opacity: 0,
+                duration: 1,
+                delay: 0.2,
+                ease: 'power2.out'
+            });
+        });
+        
+        function loadNoteContent(noteId) {
+            // This would typically fetch from a database
+            // For now, we'll simulate different content based on the ID
+            const noteData = {
+                'atomic-habits': {
+                    title: 'Atomic Habits',
+                    subtitle: 'How tiny changes create remarkable results',
+                    type: 'Book',
+                    author: 'James Clear',
+                    date: 'December 2024',
+                    rating: '9/10',
+                    content: document.getElementById('note-content').innerHTML,
+                    tags: ['Productivity', 'Habits', 'Self-Improvement', 'Psychology']
+                },
+                'future-technology': {
+                    title: 'The Future of Technology',
+                    subtitle: 'Understanding the technium and its agenda',
+                    type: 'Lecture',
+                    author: 'Kevin Kelly',
+                    date: 'November 2024',
+                    rating: '8/10',
+                    content: 'Technology content would go here...',
+                    tags: ['Technology', 'AI', 'Future']
+                }
+                // Add more notes as needed
+            };
+            
+            const note = noteData[noteId] || noteData['atomic-habits'];
+            
+            // Update page content
+            document.getElementById('note-title').textContent = note.title;
+            document.getElementById('note-subtitle').textContent = note.subtitle;
+            document.getElementById('detail-title').textContent = note.title;
+            document.getElementById('detail-author').textContent = `by ${note.author}`;
+            document.getElementById('note-type').textContent = note.type;
+            document.getElementById('note-date').textContent = note.date;
+            document.getElementById('note-rating').textContent = note.rating;
+            
+            // Update page title
+            document.title = `${note.title} - Notes - Umarbek`;
+        }
+    </script>
+</body>
+</html> 

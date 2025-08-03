@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes - Umarbek</title>
+    <link rel="stylesheet" href="book-notes.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="notes-page">
+        <!-- Header -->
+        <header class="notes-header">
+            <a href="./home/index.html" class="back-link" aria-label="Back to home">
+                <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                </svg>
+            </a>
+            <h1>Notes</h1>
+            <p class="subtitle">Thoughts, insights, and learnings from books, lectures, courses, conversations, and life</p>
+        </header>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <button class="filter-btn active" data-sort="rating">Rating</button>
+            <button class="filter-btn" data-sort="author">Author</button>
+            <button class="filter-btn" data-sort="type">Type</button>
+            <button class="filter-btn" data-sort="time">Time</button>
+        </div>
+
+        <!-- Notes Container -->
+        <div class="notes-container">
+            <!-- Book Note -->
+            <article class="note-item" data-type="books" data-time="2024-12" data-author="james-clear" data-rating="9">
+                <div class="note-meta">
+                    <span class="note-type">Book</span>
+                    <span class="note-date">December 2024</span>
+                    <span class="note-rating">9/10</span>
+                </div>
+                <h2 class="note-title">Atomic Habits</h2>
+                <p class="note-author">by James Clear</p>
+                <div class="note-content">
+                    <p>The 1% improvement rule is everything. Small changes compound over time. The key insight: focus on systems, not goals.</p>
+                    <p>Habits are the compound interest of self-improvement. The difference between success and failure is often not dramatic changes, but small, consistent improvements.</p>
+                    <p>Key takeaways: Identity-based habits are more powerful than outcome-based ones. The environment shapes behavior more than motivation. Stacking habits creates powerful routines.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Productivity</span>
+                    <span class="tag">Habits</span>
+                    <span class="tag">Self-Improvement</span>
+                </div>
+                <a href="note-detail.html?id=atomic-habits" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Lecture Note -->
+            <article class="note-item" data-type="lectures" data-time="2024-11" data-author="kevin-kelly" data-rating="8">
+                <div class="note-meta">
+                    <span class="note-type">Lecture</span>
+                    <span class="note-date">November 2024</span>
+                    <span class="note-rating">8/10</span>
+                </div>
+                <h2 class="note-title">The Future of Technology</h2>
+                <p class="note-author">by Kevin Kelly</p>
+                <div class="note-content">
+                    <p>Technology is not neutral. It has agency and wants certain things. The technium is becoming more biological.</p>
+                    <p>We're moving from a world where we control technology to a world where we collaborate with it. The future belongs to those who can work alongside AI, not against it.</p>
+                    <p>Key insights: Technology has its own agenda. The technium is becoming more biological. We need to understand technology's inherent tendencies to work with it effectively.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Technology</span>
+                    <span class="tag">AI</span>
+                    <span class="tag">Future</span>
+                </div>
+                <a href="note-detail.html?id=future-technology" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Course Note -->
+            <article class="note-item" data-type="courses" data-time="2024-10" data-author="figma" data-rating="7">
+                <div class="note-meta">
+                    <span class="note-type">Course</span>
+                    <span class="note-date">October 2024</span>
+                    <span class="note-rating">7/10</span>
+                </div>
+                <h2 class="note-title">Design Systems</h2>
+                <p class="note-author">by Figma</p>
+                <div class="note-content">
+                    <p>Consistency is the foundation of good design. A design system is not just a component library.</p>
+                    <p>The best design systems are living documents that evolve with the product. They should reflect the team's shared understanding of design principles.</p>
+                    <p>Key learnings: Design systems need to be living documents. They should evolve with the product and team. Consistency creates trust and efficiency.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Design</span>
+                    <span class="tag">Systems</span>
+                    <span class="tag">UX</span>
+                </div>
+                <a href="note-detail.html?id=design-systems" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Conversation Note -->
+            <article class="note-item" data-type="conversations" data-time="2024-09" data-author="sarah-chen" data-rating="9">
+                <div class="note-meta">
+                    <span class="note-type">Conversation</span>
+                    <span class="note-date">September 2024</span>
+                    <span class="note-rating">9/10</span>
+                </div>
+                <h2 class="note-title">Coffee with a Mentor</h2>
+                <p class="note-author">with Sarah Chen</p>
+                <div class="note-content">
+                    <p>Career advice that stuck: "Don't optimize for the next promotion. Optimize for learning."</p>
+                    <p>The best career moves are often lateral moves that expand your skill set. Focus on building transferable skills rather than climbing a specific ladder.</p>
+                    <p>Key insights: Learning should be the primary goal, not promotions. Lateral moves often provide better growth opportunities. Transferable skills are more valuable than specialized ones.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Career</span>
+                    <span class="tag">Advice</span>
+                    <span class="tag">Learning</span>
+                </div>
+                <a href="note-detail.html?id=coffee-mentor" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Book Note -->
+            <article class="note-item" data-type="books" data-time="2023-12" data-author="cal-newport" data-rating="8">
+                <div class="note-meta">
+                    <span class="note-type">Book</span>
+                    <span class="note-date">December 2023</span>
+                    <span class="note-rating">8/10</span>
+                </div>
+                <h2 class="note-title">Deep Work</h2>
+                <p class="note-author">by Cal Newport</p>
+                <div class="note-content">
+                    <p>The ability to perform deep work is becoming increasingly rare and valuable in our economy.</p>
+                    <p>Distraction is the enemy of depth. The most successful people are those who can maintain focus for extended periods.</p>
+                    <p>Key principles: Deep work is becoming a competitive advantage. Distraction destroys depth. Ritual and environment are crucial for deep work.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Productivity</span>
+                    <span class="tag">Focus</span>
+                    <span class="tag">Work</span>
+                </div>
+                <a href="note-detail.html?id=deep-work" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Lecture Note -->
+            <article class="note-item" data-type="lectures" data-time="2023-11" data-author="kevin-kelly" data-rating="9">
+                <div class="note-meta">
+                    <span class="note-type">Lecture</span>
+                    <span class="note-date">November 2023</span>
+                    <span class="note-rating">9/10</span>
+                </div>
+                <h2 class="note-title">The Inevitable</h2>
+                <p class="note-author">by Kevin Kelly</p>
+                <div class="note-content">
+                    <p>Technology has its own agenda. Understanding these forces helps us prepare for the future.</p>
+                    <p>The future is already here, it's just not evenly distributed. The key is to identify which trends are inevitable and position yourself accordingly.</p>
+                    <p>Key insights: Technology has inherent tendencies. The future is already here but unevenly distributed. Understanding inevitabilities helps with positioning.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Technology</span>
+                    <span class="tag">Future</span>
+                    <span class="tag">Trends</span>
+                </div>
+                <a href="note-detail.html?id=the-inevitable" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Book Note -->
+            <article class="note-item" data-type="books" data-time="2023-08" data-author="adam-grant" data-rating="10">
+                <div class="note-meta">
+                    <span class="note-type">Book</span>
+                    <span class="note-date">August 2023</span>
+                    <span class="note-rating">10/10</span>
+                </div>
+                <h2 class="note-title">Think Again</h2>
+                <p class="note-author">by Adam Grant</p>
+                <div class="note-content">
+                    <p>The power of knowing what you don't know. Intellectual humility is the key to learning and growth.</p>
+                    <p>We need to unlearn and relearn constantly. The most successful people are those who can change their minds when presented with new evidence.</p>
+                    <p>Key insights: Intellectual humility is crucial for growth. We need to unlearn and relearn constantly. The ability to change your mind is a superpower.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Psychology</span>
+                    <span class="tag">Learning</span>
+                    <span class="tag">Growth</span>
+                </div>
+                <a href="note-detail.html?id=think-again" class="read-more">Read full notes →</a>
+            </article>
+
+            <!-- Course Note -->
+            <article class="note-item" data-type="courses" data-time="2023-06" data-author="coursera" data-rating="6">
+                <div class="note-meta">
+                    <span class="note-type">Course</span>
+                    <span class="note-date">June 2023</span>
+                    <span class="note-rating">6/10</span>
+                </div>
+                <h2 class="note-title">Machine Learning Basics</h2>
+                <p class="note-author">by Coursera</p>
+                <div class="note-content">
+                    <p>Introduction to the fundamentals of machine learning algorithms and their applications.</p>
+                    <p>While the content was solid, the pace was too slow for my level. Good for beginners but not challenging enough for intermediate learners.</p>
+                    <p>Key learnings: Good foundational content but too basic for intermediate level. Better suited for complete beginners. Need to find more advanced courses.</p>
+                </div>
+                <div class="note-tags">
+                    <span class="tag">Machine Learning</span>
+                    <span class="tag">AI</span>
+                    <span class="tag">Programming</span>
+                </div>
+                <a href="note-detail.html?id=machine-learning-basics" class="read-more">Read full notes →</a>
+            </article>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Filter functionality
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const noteItems = document.querySelectorAll('.note-item');
+            const notesContainer = document.querySelector('.notes-container');
+
+            function sortNotes(sortType) {
+                const items = Array.from(noteItems);
+                
+                items.sort((a, b) => {
+                    switch(sortType) {
+                        case 'rating':
+                            return parseInt(b.dataset.rating) - parseInt(a.dataset.rating);
+                        case 'author':
+                            const authorA = a.querySelector('.note-author').textContent.toLowerCase();
+                            const authorB = b.querySelector('.note-author').textContent.toLowerCase();
+                            return authorA.localeCompare(authorB);
+                        case 'type':
+                            const typeA = a.dataset.type;
+                            const typeB = b.dataset.type;
+                            return typeA.localeCompare(typeB);
+                        case 'time':
+                            return b.dataset.time.localeCompare(a.dataset.time);
+                        default:
+                            return 0;
+                    }
+                });
+
+                // Clear container
+                notesContainer.innerHTML = '';
+                
+                // Add sorted items with simple fade-in animation
+                items.forEach((item, index) => {
+                    notesContainer.appendChild(item);
+                    
+                    // Simple fade-in without opacity issues
+                    gsap.fromTo(item, 
+                        { y: 20, opacity: 0 },
+                        { 
+                            y: 0, 
+                            opacity: 1, 
+                            duration: 0.4, 
+                            delay: index * 0.05,
+                            ease: 'power2.out' 
+                        }
+                    );
+                });
+            }
+
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const sortType = btn.dataset.sort;
+                    
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    
+                    // Sort notes
+                    sortNotes(sortType);
+                });
+            });
+
+            // Simple initial animations without opacity issues
+            gsap.from('.notes-header', {
+                y: 20,
+                opacity: 0,
+                duration: 0.8,
+                ease: 'power2.out'
+            });
+
+            gsap.from('.filter-section', {
+                y: 15,
+                opacity: 0,
+                duration: 0.8,
+                delay: 0.1,
+                ease: 'power2.out'
+            });
+
+            // Ensure all notes are visible by default
+            gsap.set('.note-item', { opacity: 1, y: 0 });
+        });
+    </script>
+</body>
+</html> 

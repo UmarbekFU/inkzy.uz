@@ -45,7 +45,7 @@ app.use(helmet({
 
 // CORS configuration
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: process.env.CORS_ORIGIN || ['http://localhost:3000', 'https://inkzy.uz'],
     credentials: true
 }));
 
@@ -72,6 +72,10 @@ app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/images', express.static(path.join(__dirname, '../public/images')));
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
+// Serve static files from root for compatibility
+app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../')));
+
 // Input sanitization middleware
 app.use((req, res, next) => {
     if (req.body) {
@@ -93,6 +97,15 @@ app.use((req, res, next) => {
     res.locals.baseUrl = `${req.protocol}://${req.get('host')}`;
     res.locals.gaId = process.env.GOOGLE_ANALYTICS_ID;
     next();
+});
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).json({ 
+        status: 'ok', 
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || 'development'
+    });
 });
 
 // API Routes
@@ -319,6 +332,15 @@ app.get('/sitemap.xml', async (req, res) => {
 
 // 404 handler
 app.use((req, res) => {
+    // Check if it's an API request
+    if (req.path.startsWith('/api/')) {
+        return res.status(404).json({ 
+            error: 'API endpoint not found',
+            path: req.path 
+        });
+    }
+    
+    // For regular pages, render 404 template
     res.status(404).render('404', {
         title: 'Page Not Found',
         currentPage: '404'
@@ -335,11 +357,31 @@ async function initializeApp() {
         console.log(`✅ Connected to ${dbType} database`);
         
         const port = process.env.PORT || 3000;
-        app.listen(port, () => {
-            console.log(`🚀 Server running on http://localhost:${port}`);
+        const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+        
+        const server = app.listen(port, host, () => {
+            console.log(`🚀 Server running on http://${host}:${port}`);
             console.log(`📝 Environment: ${process.env.NODE_ENV || 'development'}`);
             console.log(`🗄️  Database: ${dbType}`);
         });
+        
+        // Handle graceful shutdown
+        process.on('SIGTERM', () => {
+            console.log('SIGTERM received, shutting down gracefully');
+            server.close(() => {
+                console.log('Process terminated');
+                process.exit(0);
+            });
+        });
+        
+        process.on('SIGINT', () => {
+            console.log('SIGINT received, shutting down gracefully');
+            server.close(() => {
+                console.log('Process terminated');
+                process.exit(0);
+            });
+        });
+        
     } catch (error) {
         console.error('❌ Failed to initialize app:', error.message);
         process.exit(1);

@@ -71,6 +71,7 @@ app.use('/css', express.static(path.join(__dirname, '../public/css')));
 app.use('/js', express.static(path.join(__dirname, '../public/js')));
 app.use('/images', express.static(path.join(__dirname, '../public/images')));
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
+app.use('/home', express.static(path.join(__dirname, '../home')));
 
 // Serve static files from root for compatibility
 app.use(express.static(path.join(__dirname, '../public')));

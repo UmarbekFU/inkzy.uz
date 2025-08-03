@@ -337,8 +337,10 @@ async function main() {
         // Create indexes
         await createIndexes();
         
-        // Seed sample data
-        await seedSampleData();
+        // Only seed data in development
+        if (process.env.NODE_ENV !== 'production') {
+            await seedSampleData();
+        }
         
         console.log('✅ Migration completed successfully!');
         console.log('');
@@ -354,7 +356,10 @@ async function main() {
         
     } catch (error) {
         console.error('❌ Migration failed:', error.message);
-        process.exit(1);
+        // Don't exit in production, just log the error
+        if (process.env.NODE_ENV !== 'production') {
+            process.exit(1);
+        }
     } finally {
         // Disconnect from database
         if (mongoose.connection.readyState === 1) {

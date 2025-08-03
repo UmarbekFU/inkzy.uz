@@ -1,0 +1,37 @@
+<%- include('partials/head', { 
+    title: 'Page Not Found - Umarbek Fazliddinovich',
+    description: 'The page you\'re looking for doesn\'t exist.',
+    currentPage: '404'
+}) %>
+
+<div class="error-page">
+    <div class="container">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-description">
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+            
+            <div class="error-actions">
+                <a href="/" class="btn btn-primary">Go Home</a>
+                <a href="/essays" class="btn btn-secondary">Browse Essays</a>
+                <a href="/projects" class="btn btn-secondary">View Projects</a>
+            </div>
+            
+            <div class="error-help">
+                <h2>Looking for something specific?</h2>
+                <ul class="help-links">
+                    <li><a href="/essays">Essays</a> - Thoughtful writings on design, technology, and philosophy</li>
+                    <li><a href="/projects">Projects</a> - My work and collaborations</li>
+                    <li><a href="/now">Now</a> - What I'm currently working on</li>
+                    <li><a href="/timeline">Timeline</a> - Interactive journey through my experiences</li>
+                    <li><a href="/lists">Lists</a> - Curated collections and personal favorites</li>
+                    <li><a href="/services">Services</a> - How I can help you</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 

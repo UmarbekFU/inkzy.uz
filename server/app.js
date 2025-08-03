@@ -238,6 +238,14 @@ app.get('/services', (req, res) => {
     });
 });
 
+app.get('/gallery', (req, res) => {
+    res.render('gallery', {
+        title: 'Gallery - Umarbek',
+        description: 'Visual showcase of design work and projects.',
+        currentPage: 'gallery'
+    });
+});
+
 // RSS Feed
 app.get('/rss.xml', async (req, res) => {
     try {

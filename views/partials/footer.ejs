@@ -1,66 +1,21 @@
     </main>
     
-    <!-- Site Footer -->
-    <footer class="site-footer" role="contentinfo">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3 class="footer-title">Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="/essays">Essays</a></li>
-                        <li><a href="/projects">Projects</a></li>
-                        <li><a href="/now">Now</a></li>
-                        <li><a href="/timeline">Timeline</a></li>
-                        <li><a href="/lists">Lists</a></li>
-                        <li><a href="/services">Services</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-title">Connect</h3>
-                    <ul class="footer-links">
-                        <li><a href="https://twitter.com/UmarbekFU" target="_blank" rel="noopener noreferrer">Twitter</a></li>
-                        <li><a href="https://github.com/UmarbekFU" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-                        <li><a href="https://www.linkedin.com/in/umarbek-fazliddinovich/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
-                        <li><a href="https://t.me/ufblog" target="_blank" rel="noopener noreferrer">Telegram</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h3 class="footer-title">Newsletter</h3>
-                    <p class="footer-description">Stay updated with my latest thoughts and projects.</p>
-                    <form class="footer-newsletter" id="footerNewsletterForm" novalidate>
-                        <div class="newsletter-input-group">
-                            <label for="footerEmail" class="sr-only">Email address</label>
-                            <input type="email" id="footerEmail" name="email" class="newsletter-input" placeholder="Your email" required>
-                            <button type="submit" class="newsletter-btn" aria-label="Subscribe to newsletter">
-                                <svg viewBox="0 0 24 24" aria-hidden="true">
-                                    <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-                                </svg>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <div class="footer-info">
-                    <p>&copy; <%= new Date().getFullYear() %> Umarbek Fazliddinovich. All rights reserved.</p>
-                    <p>Built with simplicity and purpose in Samarkand, Uzbekistan.</p>
-                </div>
-                
-                <div class="footer-legal">
-                    <a href="/privacy">Privacy Policy</a>
-                    <span class="separator">•</span>
-                    <a href="/terms">Terms of Service</a>
-                    <span class="separator">•</span>
-                    <a href="/sitemap.xml">Sitemap</a>
-                </div>
-            </div>
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-container" id="bottom-nav">
+            <a href="/projects" class="bottom-nav-link">PROJECTS</a>
+            <a href="/services" class="bottom-nav-link">SERVICES</a>
+            <a href="/essays" class="bottom-nav-link">ESSAYS</a>
+            <a href="/book-notes" class="bottom-nav-link">NOTES</a>
+            <a href="/gallery" class="bottom-nav-link">GALLERY</a>
+            <a href="#newsletter" class="bottom-nav-link">NEWSLETTER</a>
+            <a href="mailto:umarbek@example.com" class="bottom-nav-link">CONTACT</a>
         </div>
-    </footer>
-    
+    </nav>
+
     <!-- JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/js/scripts.js"></script>
     <script src="/js/main.js"></script>
     <% if (typeof pageJS !== 'undefined' && pageJS) { %>
         <script src="<%= pageJS %>"></script>

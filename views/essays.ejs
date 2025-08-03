@@ -1,0 +1,107 @@
+<%- include('partials/head', { 
+    title: 'Essays - Umarbek Fazliddinovich',
+    description: 'Thoughtful essays on design, technology, philosophy, and life. Exploring minimalist design principles and antifragile thinking.',
+    currentPage: 'essays'
+}) %>
+
+<div class="essays-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">Essays</h1>
+            <p class="page-description">Thoughtful writings on design, technology, philosophy, and life.</p>
+        </header>
+
+        <!-- Search and Filter -->
+        <div class="essays-controls">
+            <div class="search-box">
+                <label for="essaySearch" class="sr-only">Search essays</label>
+                <input type="text" id="essaySearch" class="search-input" placeholder="Search essays..." aria-label="Search essays">
+            </div>
+            
+            <div class="filter-controls">
+                <label for="categoryFilter" class="filter-label">Category:</label>
+                <select id="categoryFilter" class="filter-select" aria-label="Filter by category">
+                    <option value="">All Categories</option>
+                    <option value="design">Design</option>
+                    <option value="technology">Technology</option>
+                    <option value="philosophy">Philosophy</option>
+                    <option value="life">Life</option>
+                    <option value="minimalism">Minimalism</option>
+                </select>
+                
+                <label for="sortFilter" class="filter-label">Sort by:</label>
+                <select id="sortFilter" class="filter-select" aria-label="Sort essays">
+                    <option value="date">Date</option>
+                    <option value="popularity">Popularity</option>
+                    <option value="title">Title</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Essays Grid -->
+        <div class="essays-grid" id="essaysGrid">
+            <% if (typeof essays !== 'undefined' && essays.length > 0) { %>
+                <% essays.forEach(function(essay) { %>
+                    <article class="essay-card" data-category="<%= essay.category %>" data-slug="<%= essay.slug %>">
+                        <div class="essay-meta">
+                            <time datetime="<%= essay.publishedAt.toISOString() %>" class="essay-date">
+                                <%= essay.publishedAt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+                            </time>
+                            <span class="essay-category"><%= essay.category %></span>
+                        </div>
+                        
+                        <h2 class="essay-title">
+                            <a href="/essays/<%= essay.slug %>" class="essay-link">
+                                <%= essay.title %>
+                            </a>
+                        </h2>
+                        
+                        <p class="essay-excerpt"><%= essay.excerpt %></p>
+                        
+                        <div class="essay-footer">
+                            <div class="essay-stats">
+                                <span class="reading-time" aria-label="Reading time">
+                                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                    <%= essay.readingTime %> min read
+                                </span>
+                                
+                                <% if (essay.voteRatio > 0) { %>
+                                    <span class="vote-ratio positive" aria-label="Vote ratio">
+                                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M7 14l5-5 5 5z"/>
+                                        </svg>
+                                        +<%= essay.voteRatio %>
+                                    </span>
+                                <% } %>
+                            </div>
+                            
+                            <div class="essay-tags">
+                                <% essay.tags.forEach(function(tag) { %>
+                                    <span class="tag"><%= tag %></span>
+                                <% }); %>
+                            </div>
+                        </div>
+                    </article>
+                <% }); %>
+            <% } else { %>
+                <div class="no-essays">
+                    <h2>No essays found</h2>
+                    <p>Check back soon for new content.</p>
+                </div>
+            <% } %>
+        </div>
+
+        <!-- Load More Button -->
+        <% if (typeof hasMore !== 'undefined' && hasMore) { %>
+            <div class="load-more-container">
+                <button id="loadMoreBtn" class="btn btn-secondary load-more-btn">
+                    Load More Essays
+                </button>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<%- include('partials/footer') %> 

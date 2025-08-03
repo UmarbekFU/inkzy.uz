@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= essay.title %> - Umarbek</title>
+    <link rel="stylesheet" href="/public/css/base.css">
+    <style>
+        /* Clean, minimal design for essay detail */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --text-muted: #666666;
+            --text-secondary: #888888;
+            --accent-color: #000000;
+            --border-color: #f0f0f0;
+            --card-bg: #ffffff;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --radius-sm: 4px;
+            --radius-md: 8px;
+            --transition-normal: 0.2s ease;
+            --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-color: #000000;
+                --text-color: #ffffff;
+                --text-muted: #a0a0a0;
+                --text-secondary: #808080;
+                --accent-color: #ffffff;
+                --border-color: #1a1a1a;
+                --card-bg: #000000;
+            }
+        }
+
+        body {
+            background: var(--bg-color);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Reading Progress Bar */
+        .reading-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--border-color);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .reading-progress.visible {
+            opacity: 1;
+        }
+
+        .reading-progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .essay-container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+        }
+
+        .essay-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .essay-title {
+            font-size: 2.5rem;
+            margin: 0 0 1rem 0;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--text-color);
+            letter-spacing: -0.02em;
+        }
+
+        .essay-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
+        }
+
+        .essay-date {
+            color: var(--text-muted);
+        }
+
+        .essay-reading-time {
+            color: var(--text-secondary);
+        }
+
+        .essay-tags {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .essay-tag {
+            padding: 0.25rem 0.75rem;
+            background: var(--border-color);
+            border-radius: 12px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all var(--transition-normal);
+        }
+
+        .essay-tag:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+        }
+
+        .essay-content {
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--text-color);
+        }
+
+        .essay-content h1,
+        .essay-content h2,
+        .essay-content h3,
+        .essay-content h4,
+        .essay-content h5,
+        .essay-content h6 {
+            margin: 2rem 0 1rem 0;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .essay-content h1 {
+            font-size: 1.75rem;
+        }
+
+        .essay-content h2 {
+            font-size: 1.5rem;
+        }
+
+        .essay-content h3 {
+            font-size: 1.25rem;
+        }
+
+        .essay-content p {
+            margin: 1rem 0;
+        }
+
+        .essay-content ul,
+        .essay-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .essay-content li {
+            margin: 0.5rem 0;
+        }
+
+        .essay-content blockquote {
+            margin: 1.5rem 0;
+            padding: 1rem 1.5rem;
+            border-left: 3px solid var(--accent-color);
+            background: var(--border-color);
+            border-radius: var(--radius-sm);
+            font-style: italic;
+        }
+
+        .essay-content code {
+            background: var(--border-color);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        }
+
+        .essay-content pre {
+            background: var(--border-color);
+            padding: 1rem;
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        .essay-content pre code {
+            background: none;
+            padding: 0;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            opacity: 0.8;
+            transition: all var(--transition-normal);
+            z-index: 100;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            opacity: 1;
+            transform: translateX(-2px);
+            border-color: var(--accent-color);
+        }
+
+        .back-link svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .essay-container {
+                padding: 4rem 1rem 2rem;
+            }
+
+            .essay-title {
+                font-size: 2rem;
+            }
+
+            .essay-content {
+                font-size: 1rem;
+            }
+
+            .back-link {
+                top: 1rem;
+                left: 1rem;
+                width: 36px;
+                height: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Reading Progress Bar -->
+    <div class="reading-progress">
+        <div class="reading-progress-fill"></div>
+    </div>
+
+    <a href="/essays" class="back-link" aria-label="Back to essays">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+            <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+    </a>
+
+    <div class="essay-container">
+        <header class="essay-header">
+            <h1 class="essay-title"><%= essay.title %></h1>
+            <div class="essay-meta">
+                <span class="essay-date"><%= new Date(essay.publishDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+                <span class="essay-reading-time">• <%= essay.readingTime %> min read</span>
+            </div>
+            <% if (essay.tags && essay.tags.length > 0) { %>
+                <div class="essay-tags">
+                    <% essay.tags.forEach(tag => { %>
+                        <a href="/essays?tag=<%= tag %>" class="essay-tag"><%= tag %></a>
+                    <% }); %>
+                </div>
+            <% } %>
+        </header>
+
+        <article class="essay-content">
+            <%- essay.formattedContent %>
+        </article>
+    </div>
+
+    <script>
+        class EssayDetail {
+            constructor() {
+                this.progressBar = document.querySelector('.reading-progress');
+                this.progressFill = document.querySelector('.reading-progress-fill');
+                this.article = document.querySelector('.essay-content');
+                this.init();
+            }
+
+            init() {
+                this.attachScrollListener();
+            }
+
+            attachScrollListener() {
+                let ticking = false;
+                
+                window.addEventListener('scroll', () => {
+                    if (!ticking) {
+                        requestAnimationFrame(() => {
+                            this.updateProgress();
+                            ticking = false;
+                        });
+                        ticking = true;
+                    }
+                });
+            }
+
+            updateProgress() {
+                if (!this.article) return;
+
+                const articleRect = this.article.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Calculate how much of the article is visible
+                const articleTop = articleRect.top;
+                const articleHeight = articleRect.height;
+                
+                let progress = 0;
+                
+                if (articleTop <= 0) {
+                    // Article is scrolled past the top
+                    const scrolledHeight = Math.abs(articleTop);
+                    progress = Math.min((scrolledHeight / (articleHeight - windowHeight)) * 100, 100);
+                } else if (articleTop < windowHeight) {
+                    // Article is partially visible at the top
+                    progress = ((windowHeight - articleTop) / windowHeight) * 100;
+                }
+
+                this.progressFill.style.width = `${progress}%`;
+                
+                if (progress > 0) {
+                    this.progressBar.classList.add('visible');
+                } else {
+                    this.progressBar.classList.remove('visible');
+                }
+            }
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            new EssayDetail();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,191 @@
+<%- include('partials/head', { 
+    title: 'Projects - Umarbek Fazliddinovich',
+    description: 'Portfolio of projects showcasing minimalist design, development work, and ongoing collaborations.',
+    currentPage: 'projects'
+}) %>
+
+<div class="projects-page">
+    <div class="container">
+        <header class="page-header">
+            <h1 class="page-title">Projects</h1>
+            <p class="page-description">A collection of my work, ongoing projects, and collaborations.</p>
+        </header>
+
+        <!-- Project Categories -->
+        <div class="project-categories">
+            <button class="category-btn active" data-category="all" aria-pressed="true">All Projects</button>
+            <button class="category-btn" data-category="web" aria-pressed="false">Web Development</button>
+            <button class="category-btn" data-category="design" aria-pressed="false">Design</button>
+            <button class="category-btn" data-category="ongoing" aria-pressed="false">Ongoing</button>
+            <button class="category-btn" data-category="open-source" aria-pressed="false">Open Source</button>
+        </div>
+
+        <!-- Projects Grid -->
+        <div class="projects-grid" id="projectsGrid">
+            <% if (typeof projects !== 'undefined' && projects.length > 0) { %>
+                <% projects.forEach(function(project) { %>
+                    <article class="project-card" data-category="<%= project.category %>" data-status="<%= project.status %>">
+                        <div class="project-image">
+                            <% if (project.image) { %>
+                                <img src="<%= project.image %>" alt="<%= project.title %>" loading="lazy">
+                            <% } else { %>
+                                <div class="project-placeholder">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                                        <path d="M7 12h2v5H7zm4-3h2v8h-2zm4-3h2v11h-2z"/>
+                                    </svg>
+                                </div>
+                            <% } %>
+                            
+                            <% if (project.status === 'ongoing') { %>
+                                <div class="project-badge ongoing">In Progress</div>
+                            <% } %>
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-meta">
+                                <span class="project-category"><%= project.category %></span>
+                                <% if (project.featured) { %>
+                                    <span class="project-badge featured">Featured</span>
+                                <% } %>
+                            </div>
+                            
+                            <h2 class="project-title">
+                                <a href="<%= project.url || '#' %>" target="_blank" rel="noopener noreferrer">
+                                    <%= project.title %>
+                                </a>
+                            </h2>
+                            
+                            <p class="project-description"><%= project.description %></p>
+                            
+                            <div class="project-technologies">
+                                <% project.technologies.forEach(function(tech) { %>
+                                    <span class="technology-tag"><%= tech %></span>
+                                <% }); %>
+                            </div>
+                            
+                            <div class="project-links">
+                                <% if (project.url) { %>
+                                    <a href="<%= project.url %>" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Visit <%= project.title %>">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M19 19H5V5h7V3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
+                                        </svg>
+                                        Live Demo
+                                    </a>
+                                <% } %>
+                                
+                                <% if (project.githubUrl) { %>
+                                    <a href="<%= project.githubUrl %>" class="project-link github" target="_blank" rel="noopener noreferrer" aria-label="View <%= project.title %> on GitHub">
+                                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                                        </svg>
+                                        Code
+                                    </a>
+                                <% } %>
+                            </div>
+                            
+                            <% if (project.metrics) { %>
+                                <div class="project-metrics">
+                                    <% if (project.metrics.stars) { %>
+                                        <span class="metric" aria-label="GitHub stars">
+                                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                            </svg>
+                                            <%= project.metrics.stars %>
+                                        </span>
+                                    <% } %>
+                                    
+                                    <% if (project.metrics.forks) { %>
+                                        <span class="metric" aria-label="GitHub forks">
+                                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                            </svg>
+                                            <%= project.metrics.forks %>
+                                        </span>
+                                    <% } %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </article>
+                <% }); %>
+            <% } else { %>
+                <div class="no-projects">
+                    <h2>No projects found</h2>
+                    <p>Check back soon for new projects.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<!-- Book Notes Section -->
+<section class="book-notes-section">
+    <div class="container">
+        <header class="section-header">
+            <h2 class="section-title">Book Notes</h2>
+            <p class="section-description">Insights and takeaways from books I've read.</p>
+        </header>
+        
+        <div class="book-notes-grid" id="bookNotesGrid">
+            <% if (typeof bookNotes !== 'undefined' && bookNotes.length > 0) { %>
+                <% bookNotes.forEach(function(book) { %>
+                    <article class="book-card" data-category="<%= book.category %>" data-rating="<%= book.rating %>">
+                        <div class="book-cover">
+                            <% if (book.coverImage) { %>
+                                <img src="<%= book.coverImage %>" alt="<%= book.title %> cover" loading="lazy">
+                            <% } else { %>
+                                <div class="book-placeholder">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.1.05.15.05.25.05.25 0 .5-.25.5-.5V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z"/>
+                                    </svg>
+                                </div>
+                            <% } %>
+                            
+                            <div class="book-rating">
+                                <% for (let i = 1; i <= 5; i++) { %>
+                                    <span class="star <%= i <= book.rating ? 'filled' : '' %>" aria-label="<%= i <= book.rating ? 'Filled star' : 'Empty star' %>">★</span>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <div class="book-content">
+                            <h3 class="book-title">
+                                <a href="/books/<%= book.slug %>"><%= book.title %></a>
+                            </h3>
+                            
+                            <p class="book-author">by <%= book.author %></p>
+                            
+                            <p class="book-summary"><%= book.summary %></p>
+                            
+                            <div class="book-meta">
+                                <span class="book-category"><%= book.category %></span>
+                                <span class="book-pages"><%= book.pages %> pages</span>
+                                <time datetime="<%= book.readDate.toISOString() %>" class="book-date">
+                                    Read <%= book.readDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) %>
+                                </time>
+                            </div>
+                            
+                            <% if (book.keyInsights && book.keyInsights.length > 0) { %>
+                                <div class="book-insights">
+                                    <h4>Key Insights</h4>
+                                    <ul>
+                                        <% book.keyInsights.slice(0, 3).forEach(function(insight) { %>
+                                            <li><%= insight %></li>
+                                        <% }); %>
+                                    </ul>
+                                </div>
+                            <% } %>
+                        </div>
+                    </article>
+                <% }); %>
+            <% } else { %>
+                <div class="no-books">
+                    <h3>No book notes yet</h3>
+                    <p>I'll be adding notes from books I read.</p>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<%- include('partials/footer') %> 

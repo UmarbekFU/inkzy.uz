@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Umarbek</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="./admin.css">
+    <link rel="stylesheet" href="./portfolio-manager.css">
+    <link rel="stylesheet" href="https://cdn.quilljs.com/1.3.6/quill.snow.css">
+    <!-- Add CSRF token -->
+    <meta name="csrf-token" content="" id="csrf-token">
+</head>
+<body class="admin-dashboard">
+    <nav class="admin-nav">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <div class="admin-controls">
+                <span class="last-saved">All changes saved</span>
+            <button id="logoutBtn">Logout</button>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="dashboard-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="admin-sidebar">
+            <div class="admin-menu">
+                <button class="menu-item active" data-section="content">
+                    <svg viewBox="0 0 24 24"><path d="M14 17h7v5h-7zm0-8h7v5h-7zm0-8h7v5h-7zM3 22h8v-5H3zm0-8h8V9H3zm0-8h8V1H3z"/></svg>
+                    Content Manager
+                </button>
+                <button class="menu-item" data-section="essays">
+                    <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zM6 20V4h7v5h5v11H6z"/></svg>
+                    Essays Manager
+                </button>
+                <button class="menu-item" data-section="subscribers">
+                    <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    Subscribers
+                </button>
+                <button class="menu-item" data-section="analytics">
+                    <svg viewBox="0 0 24 24"><path d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"/></svg>
+                    Analytics
+                </button>
+                <button class="menu-item" data-section="settings">
+                    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+                    Settings
+                </button>
+                <button class="menu-item" data-section="book-notes">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C10.34 2 9 3.34 9 5v14c0 1.66 1.34 3 3 3s3-1.34 3-3V5c0-1.66-1.34-3-3-3zm0 18c-1.1 0-2-.9-2-2h4c0 1.1-.9 2-2 2z"/></svg>
+                    Book Notes
+                </button>
+                <button class="menu-item" data-section="gallery">
+                    <svg viewBox="0 0 24 24"><path d="M22 16V4c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2zm-11-4l2.03 2.71L16 11l4 5H8l3-4zM2 6v14c0 1.1.9 2 2 2h14v-2H4V6H2z"/></svg>
+                    Gallery Manager
+                </button>
+                <button class="menu-item" data-section="services">
+                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                    Services Manager
+                </button>
+                <button class="menu-item" data-section="portfolio">
+                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+                    Portfolio Manager
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="admin-content">
+            <!-- Content Manager Section -->
+            <section id="content" class="dashboard-section active">
+                <div class="section-header">
+                    <h2>Content Manager</h2>
+                    <div class="section-actions">
+                        <select id="pageSelect" class="page-select" aria-label="Select page to edit">
+                            <option value="home">Home Page</option>
+                            <option value="about">About Page</option>
+                            <option value="portfolio">Portfolio Page</option>
+                            <option value="essays">Essays Page</option>
+                        </select>
+                        <button class="action-btn publish-btn">Publish Changes</button>
+                    </div>
+                </div>
+                
+                <div class="content-editor">
+                    <div id="editor"></div>
+                    <div class="editor-sidebar">
+                        <div class="widget">
+                            <h3>SEO Settings</h3>
+                            <label for="metaTitle">Meta Title</label>
+                            <input type="text" id="metaTitle" name="metaTitle" placeholder="Enter meta title">
+                            <label for="metaDescription">Meta Description</label>
+                            <textarea id="metaDescription" name="metaDescription" placeholder="Enter meta description"></textarea>
+                            <label for="metaKeywords">Keywords</label>
+                            <input type="text" id="metaKeywords" name="metaKeywords" placeholder="Enter keywords">
+                        </div>
+                        <div class="widget">
+                            <h3>Page Settings</h3>
+                            <label>
+                                <input type="checkbox" checked>
+                                Show in Navigation
+                            </label>
+                            <label>
+                                <input type="checkbox" checked>
+                                Enable Comments
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Essays Manager Section -->
+            <section id="essays" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Essays</h2>
+                    <button id="newEssayBtn" class="action-btn">New Essay</button>
+                </div>
+                
+                <div id="essaysList" class="essays-list">
+                    <!-- Essays will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Essay Form Section -->
+            <section id="essayForm" class="dashboard-section hidden">
+                <div class="section-header">
+                    <h2 id="essayFormTitle">New Essay</h2>
+                    <button id="backToEssaysBtn" class="secondary-btn">Back to Essays</button>
+                </div>
+                
+                <form id="essayFormElement" class="essay-editor">
+                    <div class="form-group">
+                        <label for="essayTitle">Title</label>
+                        <input type="text" id="essayTitle" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="essayExcerpt">Excerpt</label>
+                        <textarea id="essayExcerpt" name="excerpt" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="essayContent">Content</label>
+                        <textarea id="essayContent" name="content" required rows="15"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="essayTags">Tags (comma-separated)</label>
+                        <input type="text" id="essayTags" name="tags">
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="button" id="saveDraftBtn" class="secondary-btn">Save Draft</button>
+                        <button type="submit" id="publishEssay" class="primary-btn">Publish</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Subscribers Section -->
+            <section id="subscribers" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Email Subscribers</h2>
+                    <div class="section-actions">
+                        <button class="action-btn compose-btn">Compose Email</button>
+                        <button class="action-btn export-btn">Export List</button>
+                    </div>
+                </div>
+
+                <div class="subscribers-table">
+                    <div class="table-controls">
+                        <div class="search-box">
+                            <label for="subscriberSearch">Search subscribers</label>
+                            <input type="text" id="subscriberSearch" placeholder="Search subscribers...">
+                        </div>
+                        <div class="filter-controls">
+                            <label for="subscriberFilter">Filter subscribers</label>
+                            <select id="subscriberFilter" aria-label="Filter subscribers">
+                                <option>All Subscribers</option>
+                                <option>Active</option>
+                                <option>Inactive</option>
+                            </select>
+                            <button class="filter-btn">Filter</button>
+                        </div>
+                    </div>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll" aria-label="Select all subscribers"></th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Subscribed Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="subscribersList">
+                            <!-- Subscriber rows will be populated here -->
+                        </tbody>
+                    </table>
+
+                    <div class="table-footer">
+                        <div class="pagination">
+                            <button>Previous</button>
+                            <span>Page 1 of 1</span>
+                            <button>Next</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Analytics Section -->
+            <section id="analytics" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Analytics Overview</h2>
+                    <div class="date-range-picker">
+                        <label for="startDate">Start date</label>
+                        <input type="date" id="startDate" aria-label="Start date">
+                        <label for="endDate">End date</label>
+                        <input type="date" id="endDate" aria-label="End date">
+                        <button class="apply-btn">Apply</button>
+                    </div>
+                </div>
+
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3>Total Visitors</h3>
+                        <div class="metric">12,345</div>
+                        <div class="trend positive">↑ 12.3%</div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Avg. Time on Site</h3>
+                        <div class="metric">2m 45s</div>
+                        <div class="trend negative">↓ 5.2%</div>
+                    </div>
+                    <div class="analytics-card">
+                        <h3>Newsletter Signups</h3>
+                        <div class="metric">234</div>
+                        <div class="trend positive">↑ 8.7%</div>
+                    </div>
+                </div>
+
+                <div class="charts-container">
+                    <div class="chart-widget">
+                        <h3>Traffic Overview</h3>
+                        <canvas id="trafficChart"></canvas>
+                    </div>
+                    <div class="chart-widget">
+                        <h3>Top Pages</h3>
+                        <canvas id="pagesChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Site Settings</h2>
+                    <button class="action-btn save-settings">Save Changes</button>
+                </div>
+
+                <div class="settings-grid">
+                    <div class="settings-card">
+                        <h3>General Settings</h3>
+                        <div class="setting-group">
+                            <label for="siteTitle">Site Title</label>
+                            <input type="text" id="siteTitle" value="Umarbek">
+                        </div>
+                        <div class="setting-group">
+                            <label for="siteDescription">Site Description</label>
+                            <textarea id="siteDescription">An utter maniac</textarea>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Email Settings</h3>
+                        <div class="setting-group">
+                            <label for="smtpServer">SMTP Server</label>
+                            <input type="text" id="smtpServer">
+                        </div>
+                        <div class="setting-group">
+                            <label for="smtpPort">SMTP Port</label>
+                            <input type="number" id="smtpPort">
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Security Settings</h3>
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" checked>
+                                Enable 2FA
+                            </label>
+                        </div>
+                        <div class="setting-group">
+                            <label>
+                                <input type="checkbox" checked>
+                                Auto-logout after inactivity
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Book Notes Section -->
+            <section id="books" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Book Notes Manager</h2>
+                    <button class="action-btn" id="addBookBtn">Add New Book</button>
+                </div>
+                
+                <div class="books-manager">
+                    <div class="books-list" id="adminBooksList">
+                        <!-- Books will be loaded here -->
+                    </div>
+                    
+                    <div class="book-editor">
+                        <form id="bookForm">
+                            <div class="form-group">
+                                <label for="bookTitle">Title</label>
+                                <input type="text" id="bookTitle" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookAuthor">Author</label>
+                                <input type="text" id="bookAuthor" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookISBN">ISBN</label>
+                                <input type="text" id="bookISBN">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookSummary">Summary</label>
+                                <textarea id="bookSummary" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookTags">Tags (comma-separated)</label>
+                                <input type="text" id="bookTags">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookRating">Rating (1-5)</label>
+                                <input type="number" id="bookRating" min="1" max="5">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookReadDate">Read Date</label>
+                                <input type="date" id="bookReadDate">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="bookNotes">Detailed Notes</label>
+                                <div id="bookNotesEditor"></div>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="submit" class="action-btn">Save Book</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Manager Section -->
+            <section id="gallery" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Gallery Manager</h2>
+                    <button class="action-btn" id="addGalleryItem">Add New Item</button>
+                </div>
+                
+                <div class="gallery-manager">
+                    <!-- Gallery List -->
+                    <div class="gallery-list" id="galleryList">
+                        <!-- Gallery items will be loaded here -->
+                    </div>
+                    
+                    <!-- Gallery Form -->
+                    <div class="gallery-editor" id="galleryForm">
+                        <h3 id="formTitle">Add New Gallery Item</h3>
+                        <form>
+                            <div class="form-group">
+                                <label for="title">Title *</label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="description">Description</label>
+                                <textarea id="description" name="description" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mediaType">Media Type *</label>
+                                <select id="mediaType" name="mediaType" required>
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="mediaUrl">Media URL *</label>
+                                <input type="url" id="mediaUrl" name="mediaUrl" required>
+                            </div>
+                            
+                            <div class="form-group" id="thumbnailUrlGroup">
+                                <label for="thumbnailUrl">Thumbnail URL (for videos)</label>
+                                <input type="url" id="thumbnailUrl" name="thumbnailUrl">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="tags">Tags (comma-separated)</label>
+                                <input type="text" id="tags" name="tags" placeholder="nature, landscape, art">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="order">Display Order</label>
+                                <input type="number" id="order" name="order" value="0" min="0">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="isActive" name="isActive" checked>
+                                    Active (visible on gallery page)
+                                </label>
+                            </div>
+                            
+                            <div class="form-actions">
+                                <button type="button" id="cancelGalleryItem" class="secondary-btn">Cancel</button>
+                                <button type="submit" class="action-btn">Save Item</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Manager Section -->
+            <section id="services" class="dashboard-section">
+                <div class="section-header">
+                    <h2>Services Manager</h2>
+                    <div class="section-actions">
+                        <button id="saveServicesBtn" class="action-btn">Save Service</button>
+                        <button id="updateLiveBtn" class="action-btn secondary-btn">Update Live Page</button>
+                    </div>
+                </div>
+                
+                <div class="services-manager">
+                    <!-- Services List -->
+                    <div class="services-list">
+                        <h3>Select Service to Edit</h3>
+                        <div id="servicesList" class="services-grid">
+                            <!-- Services will be loaded here -->
+                        </div>
+                    </div>
+                    
+                    <!-- Service Editor -->
+                    <div class="service-editor" id="serviceEditor">
+                        <h3>Edit Service</h3>
+                        <form id="serviceForm">
+                            <div class="form-group">
+                                <label for="serviceTitle">Service Title *</label>
+                                <input type="text" id="serviceTitle" name="title" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="serviceSubtitle">Subtitle</label>
+                                <input type="text" id="serviceSubtitle" name="subtitle">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="servicePrice">Price *</label>
+                                <input type="text" id="servicePrice" name="price" placeholder="$500" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="serviceDescription">Description</label>
+                                <textarea id="serviceDescription" name="description" rows="4"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Features</label>
+                                <div id="featuresContainer" class="features-list">
+                                    <!-- Features will be added here -->
+                                </div>
+                                <button type="button" id="addFeatureBtn" class="secondary-btn">+ Add Feature</button>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="serviceCtaText">Primary CTA Button Text</label>
+                                <input type="text" id="serviceCtaText" name="ctaText" placeholder="Get Started">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="serviceCtaLink">Primary CTA Button Link</label>
+                                <input type="url" id="serviceCtaLink" name="ctaLink" placeholder="mailto:example@email.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="serviceSecondaryCta">Secondary CTA Button Text</label>
+                                <input type="text" id="serviceSecondaryCta" name="secondaryCta" placeholder="Learn More">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Header Section Editor -->
+                <div class="section-editor">
+                    <h3>Page Header</h3>
+                    <form id="headerForm">
+                        <div class="form-group">
+                            <label for="pageTitle">Page Title *</label>
+                            <input type="text" id="pageTitle" name="title" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="pageDescription">Page Description</label>
+                            <textarea id="pageDescription" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <button type="button" id="saveHeaderBtn" class="action-btn">Save Header</button>
+                    </form>
+                </div>
+
+                <!-- Info Section Editor -->
+                <div class="section-editor">
+                    <h3>Info Sections</h3>
+                    <form id="infoForm">
+                        <div class="form-group">
+                            <label for="howItWorksTitle">"How It Works" Title</label>
+                            <input type="text" id="howItWorksTitle" name="title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="step1">Step 1</label>
+                            <input type="text" id="step1" name="step1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="step2">Step 2</label>
+                            <input type="text" id="step2" name="step2">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="step3">Step 3</label>
+                            <input type="text" id="step3" name="step3">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="step4">Step 4</label>
+                            <input type="text" id="step4" name="step4">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="whatIDontDoTitle">"What I Don't Do" Title</label>
+                            <input type="text" id="whatIDontDoTitle" name="title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item1">Item 1</label>
+                            <input type="text" id="item1" name="item1">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item2">Item 2</label>
+                            <input type="text" id="item2" name="item2">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item3">Item 3</label>
+                            <input type="text" id="item3" name="item3">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="item4">Item 4</label>
+                            <input type="text" id="item4" name="item4">
+                        </div>
+                        
+                        <button type="button" id="saveInfoBtn" class="action-btn">Save Info Sections</button>
+                    </form>
+                </div>
+
+                <!-- Contact Section Editor -->
+                <div class="section-editor">
+                    <h3>Contact Section</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="contactTitle">Contact Title</label>
+                            <input type="text" id="contactTitle" name="title">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactDescription">Contact Description</label>
+                            <textarea id="contactDescription" name="description" rows="3"></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="contactEmail">Contact Email</label>
+                            <input type="email" id="contactEmail" name="email">
+                        </div>
+                        
+                        <button type="button" id="saveContactBtn" class="action-btn">Save Contact Section</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Portfolio Manager Section -->
+            <section id="portfolio" class="dashboard-section">
+                <div id="portfolioManagerContainer">
+                    <!-- Portfolio manager content will be loaded here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Email Composer Modal -->
+    <div id="emailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Compose Email</h2>
+                <button class="close-modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="composer-form">
+                    <label for="emailSubject">Subject</label>
+                    <input type="text" id="emailSubject" placeholder="Enter email subject">
+                    <label for="emailContent">Content</label>
+                    <div id="emailEditor"></div>
+                    <div class="recipient-selector">
+                        <h4>Select Recipients</h4>
+                        <div class="recipient-list">
+                            <!-- Recipients will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="action-btn preview-btn">Preview</button>
+                <button class="action-btn send-btn">Send Email</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="module" src="./dashboard.js"></script>
+    <script src="./gallery-manager.js"></script>
+    <script src="./services-manager.js"></script>
+    <script src="./essays-manager.js"></script>
+    <script src="./portfolio-manager.js"></script>
+</body>
+</html> 
